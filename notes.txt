@@ -1,0 +1,44 @@
+How to use:
+
+1.
+Delete / move all files in audio, screenshots, clips and title folder
+Delete or move yt_movie.mp4
+Empty the recycle bin
+Choose an askreddit or whatever sub thread. Copy the URL
+
+2.
+Upvote the title
+Take a screenshot of the title and save it to folder title/Capture.PNG
+
+3.
+Go to tts_test.py 
+Replace the text in line 15 with the text in the title
+Tun tts_test.py
+
+4.
+Go to main.py
+
+Replace the URL in line 22 with the URL of the askreddit thread you want to use
+
+Replace the int in top_n in line 68 with the number of comments you want to use
+
+Run main.py
+
+5.
+Quickly scroll through every screenshot to make sure there arent any bad ones
+
+Move around items in the json txt to redo the audio and screenshot matching if necessary
+
+6.
+Go to moviepy_script.py
+
+Run moviepy_script.py
+
+7. 
+Make clickbaity Youtube video thumbnail
+Make clickbaity Youtube video title
+Make Video description
+
+8.
+Publish to Youtube channel
+

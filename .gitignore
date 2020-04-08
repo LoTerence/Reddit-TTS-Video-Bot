@@ -1,0 +1,11 @@
+.idea
+venv/clips/*
+venv/audio/*
+venv/screenshots/*
+venv/__pycache__/*
+venv/misc/*
+venv/title/*
+venv/Scripts/*
+venv/Lib/*
+venv/Include/*
+credentials.txt
