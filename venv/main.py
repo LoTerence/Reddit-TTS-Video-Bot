@@ -19,16 +19,16 @@ hf.empty_folder(f'screenshots')
 
 # Read comment_body_list json and save to variable comments_list
 comment_body_list = []
-with open('title/comment_bodies_json.txt', 'r') as filehandle:
+with open('title/comment_body_json.txt', 'r') as filehandle:
     comment_body_list = json.load(filehandle)
 filehandle.close()
 
 
 #prepare comment templates
-f = open("misc/reddit-comment.html","r")
+f = open("html_templates/reddit-comment.html","r")
 comment_template = Template(f.read())
 f.close()
-f = open("misc/reddit-comment-noheight.html","r")
+f = open("html_templates/reddit-comment-noheight.html","r")
 comment_template_h = Template(f.read())
 f.close()
 
@@ -59,10 +59,10 @@ for comment in comment_body_list:
     comment_temp = comment['body']  # save content of comment['body'] to temporary str var
     comment_temp = hf.convertLnToBr(comment_temp)
     sub = comment_template_h.substitute(username=comment['author'], commentbody=comment_temp)  # write comment content into noheight template
-    f = open('misc/r_comment.html', 'w') # open blank file for writing reddit comment html
+    f = open('html_templates/r_comment.html', 'w') # open blank file for writing reddit comment html
     f.write(sub)  # write the html template with the comment data substituted in
     f.close()
-    driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/misc/r_comment.html')
+    driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/r_comment.html')
     comment_height = driver.find_element_by_id("comment").size["height"] +2  #get the height of comment text area
 
 
@@ -95,12 +95,12 @@ for comment in comment_body_list:
                                           awards=' ', px=str(comment_height)+'px', commentbody=commentBodySub)
 
         #open blank file for writing reddit comment html
-        f = open('misc/r_comment.html', 'w')
+        f = open('html_templates/r_comment.html', 'w')
         f.write(sub) #write the html template with the comment data substituted in
         f.close() #save the write
 
         # take screenshot of reddit comment and save to screenshots folder
-        driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/misc/r_comment.html')  #open the html template in selenium webdriver
+        driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/r_comment.html')  #open the html template in selenium webdriver
 
         #save screenshot in screenshots folder
         bodyElement = driver.find_element_by_id('bodyid')

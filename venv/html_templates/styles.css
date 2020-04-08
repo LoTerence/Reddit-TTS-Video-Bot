@@ -1,0 +1,175 @@
+html,
+body,
+div {
+    margin: 0;
+    padding: 0 0 0 5px;
+    border: 0;
+    font-size: 100%;
+    font-family: Arial, sans-serif;
+    vertical-align: baseline;
+    color: rgb(215, 218, 220);
+    background-color: #1A1A1B;
+}
+
+body {
+    padding-top: 10px;
+    background-color: #1A1A1B;
+    width: 900px;
+    /*zoom: 1.4;*/
+}
+
+.total-comment {
+    position: relative;
+}
+
+button {
+    background: transparent;
+    border: none;
+    color: #1c1c1c;
+    cursor: pointer;
+    padding: initial;
+}
+
+.sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 30px;
+}
+
+.threadline-area {
+    background-color: transparent;
+    width: 16px;
+    height: calc(100% - 42px);
+    display: inline-block;
+    text-align: center;
+    bottom: 0;
+    margin-left: 5px;
+    margin-top: 5px;
+    vertical-align: top;
+}
+
+.threadline {
+    border-right: 2px solid;
+    border-right-color: rgb(52, 53, 54);
+    max-width: 50%;
+    height: 100%;
+    display: block;
+    padding: 0 0 0 0;
+}
+
+.vote-area {
+    max-width: 24px;
+    max-height: 40px;
+    text-align: center;
+}
+
+.voteButton {
+    width: 16px;
+    height: 16px;
+    color: rgb(129, 131, 132);
+    line-height: 16px;
+    font-size: 16px;
+    padding: 0 0 0 0;
+}
+
+#upvote-button {
+  color: rgb(255, 69, 0);
+}
+
+.not-sidebar {
+    margin-left: 18px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    width: 650px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.heading-area {
+    margin-left: 0;
+    min-height: 18px;
+    font-size: 12px;
+    font-weight: 400;
+    align-items: center;
+    color: rgb(129, 131, 132);
+    display: inline-block;
+    line-height: 20px;
+}
+
+.username-div {
+    color: rgb(79, 188, 255);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    float: left;
+}
+
+.karma {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    padding-left: 4px;
+    float: left;
+}
+
+.heading-dot {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    padding-left: 4px;
+    float: left;
+}
+
+.time-posted {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    padding-left: 4px;
+    float: left;
+}
+
+.awards {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    flex-wrap: wrap;
+    overflow: hidden;
+    float: left;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    color: #7c7c7c;
+    padding-left: 4px;
+}
+
+.text-area {
+    border-radius: 4px;
+    font-family: Noto Sans, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    word-break: break-word;
+    overflow: auto;
+    padding-bottom: 1px;
+    margin-bottom: -1px;
+}
+
+.footing-area {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    margin: 4px 0 8px;
+}
+
+.foot-button {
+    border-radius: 2px;
+    display: inline-block;
+    margin-right: 4px;
+    padding: 4px;
+    transition: color .1s;
+    white-space: nowrap;
+    color: rgb(129, 131, 132);
+}
