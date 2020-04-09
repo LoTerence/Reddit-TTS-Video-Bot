@@ -4,6 +4,7 @@
 #
 from moviepy.editor import *
 import json
+import helpfulFuncs as hf
 
 # Function that turns a list into a list of lists size n
 # Yield successive n-sized chunks from l.
@@ -24,7 +25,11 @@ clip_filenames = []
 # make a video clip for the static video effect
 static_vf = VideoFileClip(f"misc/static_vf.mp4")
 # make an image clip for the background picture
-bg_pic = ImageClip(f"misc/bg-pic.jpg")
+#bg_pic = ImageClip(f"misc/bg-pic.jpg")
+
+
+#clear clips folder
+hf.empty_folder(f'clips')
 
 
 # Read comments_list json and save to variable comments_list
@@ -42,11 +47,12 @@ audio = audio.volumex(1.5)
 image = (ImageClip(f"title/Capture.PNG")
 	.set_duration(audio.duration)
 	.resize(width=w)
+	.on_color(size=dim, color=bg_color)
 	.set_fps(5)
 	.set_position(("center","center"))
 	.set_audio(audio))
-bg_pic.set_duration(audio.duration)
-image = CompositeVideoClip([bg_pic,image], size=dim).set_duration(audio.duration)
+#bg_pic.set_duration(audio.duration)  #set duration of bg_pic
+#image = CompositeVideoClip([bg_pic,image], size=dim).set_duration(audio.duration)  #compose image on top of bg_pic
 image.write_videofile('clips/0intro.mp4')
 
 
@@ -62,7 +68,7 @@ for group in groups_list:
 	#loop through comments in comments_list
 	for comment in group:
 
-		#add static effect
+		# check if the screenshot exists and add static effect
 		try:
 			f = open(comment[0][0])
 		except:
@@ -89,11 +95,12 @@ for group in groups_list:
 				image = (ImageClip(sentence[0])
 						 .set_duration(audio.duration)
 						 .resize(width=w)
+						 .on_color(size=dim, color=bg_color)  #set screenshot on top of colorclip with bg_color as background color
 						 .set_fps(5)
 						 .set_position(("center", "center"))
 						 .set_audio(audio))
-				bg_pic.set_duration(audio.duration)
-				image = CompositeVideoClip([bg_pic, image], size=dim).set_duration(audio.duration)
+				#bg_pic.set_duration(audio.duration)  #set duration for big_pic imageclip
+				#image = CompositeVideoClip([bg_pic, image], size=dim).set_duration(audio.duration)  #set screenshot image on top of bg_pic imageclip
 
 				temp_clip = concatenate_videoclips([temp_clip, image])
 				print('Concatenated clip \'' + str(sentence[0]) + '\'' + ' to group ' + str(group_i) + ' clip')
@@ -128,15 +135,16 @@ print('Static vf and outro added')
 
 
 # Add looped music
-bg_music = AudioFileClip(f'misc/BetterDays-looped.wav')
+#bg_music = AudioFileClip(f'misc/BetterDays-looped.wav')
+bg_music = AudioFileClip(f'misc/klonkey_donkey-looped2.wav')
 bg_music = bg_music.set_duration(final_clip.duration)
-bg_music = bg_music.volumex(0.25)
+#bg_music = bg_music.volumex(0.8)
 bg_music = CompositeAudioClip([final_clip.audio, bg_music])
 final_clip = final_clip.set_audio(bg_music)
 
 
-# Write the result to a file: "yt_movie.mp4"
-final_clip.write_videofile("yt_movie.mp4")
+# Write the result to a file: "movie/yt_movie.mp4"
+final_clip.write_videofile(f"movie/yt_movie.mp4")
 
 
 #close all clips to free up resources
@@ -145,5 +153,5 @@ temp_clip.close()
 static_vf.close()
 audio.close()
 image.close()
-bg_pic.close()
+#bg_pic.close()
 bg_music.close()
