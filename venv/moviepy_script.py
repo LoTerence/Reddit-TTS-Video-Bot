@@ -24,7 +24,7 @@ static_vf = VideoFileClip(f"misc/static_vf.mp4")
 
 
 #clear clips folder
-hf.empty_folder(f'clips')
+hf.empty_folder(f'artifacts/clips')
 
 
 # Read comments_list json and save to variable comments_list
@@ -48,7 +48,7 @@ image = (ImageClip(f"artifacts/title/Capture.PNG")
 	.set_audio(audio))
 #bg_pic.set_duration(audio.duration)  #set duration of bg_pic
 #image = CompositeVideoClip([bg_pic,image], size=dim).set_duration(audio.duration)  #compose image on top of bg_pic
-image.write_videofile('clips/0intro.mp4')
+image.write_videofile('artifacts/clips/0intro.mp4')
 
 
 group_i = 1 # 'group of 10' counter
@@ -101,7 +101,7 @@ for group in groups_list:
 				print('Concatenated clip \'' + str(sentence[0]) + '\'' + ' to group ' + str(group_i) + ' clip')
 
 				#  ------     Just in case I need to save the individual clips     --------
-				# image.write_videofile("clips/clip_"+str(comment_i) +'_'+str(sentence_i)+'.mp4')
+				# image.write_videofile("artifacts/clips/clip_"+str(comment_i) +'_'+str(sentence_i)+'.mp4')
 				# print('saved clip ' + str(comment_i)+'_'+str(sentence_i))
 				# sentence_i += 1
 			finally:
@@ -110,14 +110,14 @@ for group in groups_list:
 
 		# END comments loop
 
-	temp_clip.write_videofile("clips/" + str(group_i) + "clip.mp4")
-	clip_filenames.append("clips/" + str(group_i) + "clip.mp4")
+	temp_clip.write_videofile("artifacts/clips/" + str(group_i) + "clip.mp4")
+	clip_filenames.append("artifacts/clips/" + str(group_i) + "clip.mp4")
 	group_i += 1
 	# END groups_list loop
 
 
 # Combine the clips into one final clip
-final_clip = VideoFileClip(f"clips/0intro.mp4")
+final_clip = VideoFileClip(f"artifacts/clips/0intro.mp4")
 for clip_filename in clip_filenames:
 	temp_clip = VideoFileClip(clip_filename)
 	final_clip = concatenate_videoclips([final_clip,temp_clip])
@@ -139,7 +139,7 @@ final_clip = final_clip.set_audio(bg_music)
 
 
 # Write the result to a file: "movie/yt_movie.mp4"
-final_clip.write_videofile(f"movie/yt_movie.mp4")
+final_clip.write_videofile(f"artifacts/movie/yt_movie.mp4")
 
 
 #close all clips to free up resources

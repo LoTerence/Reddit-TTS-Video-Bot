@@ -12,9 +12,9 @@ import ttsGenerator as ttsg
 
 
 # first thing I have to do: Empty [audio, screenshots, title?, clips] folders of old content
-hf.empty_folder(f'audio')
-hf.empty_folder(f'clips')
-hf.empty_folder(f'screenshots')
+hf.empty_folder(f'artifacts/audio')
+hf.empty_folder(f'artifacts/clips')
+hf.empty_folder(f'artifacts/screenshots')
 
 
 # Read comment_body_list json and save to variable comments_list
@@ -111,7 +111,7 @@ for comment in comment_body_list:
         bottom = location['y'] + size['height'] * 1.3
         im = Image.open(BytesIO(driver.get_screenshot_as_png()))
         im = im.crop((left, top, 950, bottom))  #crop screenshot so we only get the comment / template body
-        screenshot_filename = 'screenshots/screenshot_' + str(comment_i) + '_' + str(sentence_i)+ '.png'
+        screenshot_filename = 'artifacts/screenshots/screenshot_' + str(comment_i) + '_' + str(sentence_i)+ '.png'
         im.save(screenshot_filename)  #save screenshot as file
 
         #replaces bad and weird words in sentence with ad friendly child words
