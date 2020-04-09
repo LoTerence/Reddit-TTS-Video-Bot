@@ -6,12 +6,7 @@ from moviepy.editor import *
 import json
 import helpfulFuncs as hf
 
-# Function that turns a list into a list of lists size n
-# Yield successive n-sized chunks from l.
-def divide_chunks(l, n):
-    # looping till length l
-    for i in range(0, len(l), n):
-        yield l[i:i + n]
+
 
 #variables
 dim = (1280,720) #720p # video dimensions
@@ -34,7 +29,7 @@ hf.empty_folder(f'clips')
 
 # Read comments_list json and save to variable comments_list
 comments_list = []
-with open('title/comments_json.txt', 'r') as filehandle:
+with open('artifacts/title/comments_json.txt', 'r') as filehandle:
     comments_list = json.load(filehandle)
 filehandle.close()
 # groups_list: Divide comments list into a list of comment groups of 10
@@ -42,9 +37,9 @@ groups_list = list(divide_chunks(comments_list, 10))
 
 
 #make "final" image clip using title screenshot and title audio tts. Every clip after this will be concatenated to final_clip
-audio = AudioFileClip(f"title/title_tts.mp3")
+audio = AudioFileClip(f"artifacts/title/title_tts.mp3")
 audio = audio.volumex(1.5)
-image = (ImageClip(f"title/Capture.PNG")
+image = (ImageClip(f"artifacts/title/Capture.PNG")
 	.set_duration(audio.duration)
 	.resize(width=w)
 	.on_color(size=dim, color=bg_color)

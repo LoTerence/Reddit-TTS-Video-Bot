@@ -44,5 +44,5 @@ for comment in thread.comments[:top_n]:
 
 
 #save comment_body_list json to txt
-with open(f'title/comment_body_json.txt', 'w') as filehandle:
+with open(f'artifacts/title/comment_body_json.txt', 'w') as filehandle:
     json.dump(comment_body_list, filehandle, indent=2)

@@ -70,3 +70,10 @@ def cleanSpeech(s):
             speech = speech.replace(key, value)
     return speech
 
+# Function that turns a list into a list of lists size n
+# Yield successive n-sized chunks from l.
+# (for moviepy_script.py moviepy bug fix)
+def divide_chunks(l, n):
+    # looping till length l
+    for i in range(0, len(l), n):
+        yield l[i:i + n]

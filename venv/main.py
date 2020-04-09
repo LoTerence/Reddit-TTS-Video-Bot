@@ -19,7 +19,7 @@ hf.empty_folder(f'screenshots')
 
 # Read comment_body_list json and save to variable comments_list
 comment_body_list = []
-with open('title/comment_body_json.txt', 'r') as filehandle:
+with open('artifacts/title/comment_body_json.txt', 'r') as filehandle:
     comment_body_list = json.load(filehandle)
 filehandle.close()
 
@@ -134,7 +134,7 @@ for comment in comment_body_list:
 
 
 # open output file for writing json comments_list so moviepy_script can use the data
-with open('title/comments_json.txt', 'w') as filehandle:
+with open('artifacts/title/comments_json.txt', 'w') as filehandle:
     json.dump(comments_list, filehandle, indent=2)
 
 

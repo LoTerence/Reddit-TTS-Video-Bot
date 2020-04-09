@@ -14,9 +14,9 @@ w = 1150 #width of image should be <= to width of dim
 bg_color = (26,26,27)  # reddit dark mode bg color, dark-dark-grey #1A1A1B
 
 a = ImageClip(f"misc/bg-pic.jpg")
-audio = AudioFileClip(f"title/title_tts.mp3")
+audio = AudioFileClip(f"artifacts/title/title_tts.mp3")
 audio = audio.volumex(1.5)
-image = (ImageClip(f"title/Capture.PNG")
+image = (ImageClip(f"artifacts/title/Capture.PNG")
 	.resize(width=w)
 	.set_fps(5)
 	.set_audio(audio)
@@ -47,7 +47,7 @@ while i<10:
 a.write_audiofile('looped_music.wav')
 
 # improvising an outro clip with moviepy
-a = (ImageClip(f'title/outro.png')
+a = (ImageClip(f'artifacts/title/outro.png')
     .set_duration(15.00)
 	.resize(width=1280)
 	.set_fps(5))
@@ -70,7 +70,7 @@ my_list = ['geeks', 'for', 'geeks', 'like',
 
 # Read comments_list json and save to variable comments_list
 comments_list = []
-with open('title/comments_json.txt', 'r') as filehandle:
+with open('artifacts/title/comments_json.txt', 'r') as filehandle:
     comments_list = json.load(filehandle)
 filehandle.close()
 

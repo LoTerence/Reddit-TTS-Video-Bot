@@ -2,11 +2,12 @@
 credentials.txt
 .~lock.todos.odt#
 
+venv/artifacts
 venv/clips/
 venv/audio/
 venv/screenshots/
 venv/misc/
-venv/title/
+venv/artifacts/title/
 venv/movie/
 venv/Scripts/*
 venv/Lib/*

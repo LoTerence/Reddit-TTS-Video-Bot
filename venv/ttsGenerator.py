@@ -32,7 +32,7 @@ def generate_tts(s, comment_i, sentence_i):
 def gen_title_tts(s):
     synthesis_input = texttospeech.types.SynthesisInput(text=s)  # set the text to be synthesized
     audio_res = client.synthesize_speech(synthesis_input, voice, audio_config)  # generate speech and save to variable audio_res
-    audio_filename = 'title/title_tts.mp3'
+    audio_filename = 'artifacts/title/title_tts.mp3'
     with open(audio_filename, 'wb') as out:
         # Write the response to the output file.
         out.write(audio_res.audio_content)  # save to mp3 file in audio folder
