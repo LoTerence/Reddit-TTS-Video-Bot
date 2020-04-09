@@ -9,22 +9,25 @@ upload json to main.py
 '''
 import praw, json
 import helpfulFuncs as hf
-import secretVars as sv
 
 # vars
 top_n = 30   #number of comments to take screenshots of
+#replace this url with new url every time you want to run the script on a new thread
+thread_url = f"https://www.reddit.com/r/AskReddit/comments/foslu3/if_covid19_wasnt_dominating_the_news_right_now/"  #replace this url with new url every time you want to run the script on a new thread
 comment_body_list = []
 
+reddit_creds = {}
+with open('misc/reddit.json', 'r') as filehandle:
+    reddit_creds = json.load(filehandle)
+filehandle.close()
 
 # grab reddit comments with praw
-r = praw.Reddit(client_id=sv.reddit_client_id, client_secret=sv.reddit_client_secret,
-                     password=sv.reddit_pw, user_agent=sv.reddit_user_agent,
-                     username=sv.reddit_user)
+r = praw.Reddit(client_id=reddit_creds["reddit_client_id"], client_secret=reddit_creds["reddit_client_secret"],
+                     password=reddit_creds["reddit_pw"], user_agent=reddit_creds["reddit_user_agent"],
+                     username=reddit_creds["reddit_user"])
 
 ##### -------  Replace this url with new url every time you want to run the script on a new askreddit post ------------------------------
-thread = r.submission(
-    url='https://www.reddit.com/r/AskReddit/comments/foslu3/if_covid19_wasnt_dominating_the_news_right_now/'
-)
+thread = r.submission(url=thread_url)
 thread.comment_sort = 'best' # get the best comments from the thread
 
 

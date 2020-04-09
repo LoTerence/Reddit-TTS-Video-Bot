@@ -71,6 +71,7 @@ for group in groups_list:
 		else:  # do all this if it exists
 			temp_clip = concatenate_videoclips([temp_clip, static_vf])
 			print('Static vf added')
+			#f.close()  #bug fix? if f cant be opened then it cant be closed in finally?
 		finally:
 			f.close()
 

@@ -8,7 +8,6 @@ venv/Scripts/*
 venv/Lib/*
 venv/__pycache__/*
 venv/Include/*
-venv/secretVars.py
 
 venv/1clipTEMP_MPY_wvf_snd.mp3
 venv/2clipTEMP_MPY_wvf_snd.mp3
