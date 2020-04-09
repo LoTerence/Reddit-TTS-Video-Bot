@@ -29,7 +29,7 @@ hf.empty_folder(f'artifacts/clips')
 
 # Read comments_list json and save to variable comments_list
 comments_list = []
-with open('artifacts/title/comments_json.txt', 'r') as filehandle:
+with open('artifacts/title/thread_comments.json', 'r') as filehandle:
     comments_list = json.load(filehandle)
 filehandle.close()
 # groups_list: Divide comments list into a list of comment groups of 10

@@ -19,7 +19,7 @@ hf.empty_folder(f'artifacts/screenshots')
 
 # Read comment_body_list json and save to variable comments_list
 comment_body_list = []
-with open('artifacts/title/comment_body_json.txt', 'r') as filehandle:
+with open('artifacts/title/comment_bodies.json', 'r') as filehandle:
     comment_body_list = json.load(filehandle)
 filehandle.close()
 
@@ -73,7 +73,7 @@ for comment in comment_body_list:
     print(sentences)  #test if I got the sentences right
 
     # karma - convert comment['score'] to k's if over 999, else keep it the same
-    karma = hf.convertKarmaToK(comment['score'])
+    karma = hf.convertNToK(comment['score'])
 
     commentBodySub = ''  # make value for comment body substitute, as we loop through sentences we append sentences to commentBodySub
 
@@ -134,7 +134,7 @@ for comment in comment_body_list:
 
 
 # open output file for writing json comments_list so moviepy_script can use the data
-with open('artifacts/title/comments_json.txt', 'w') as filehandle:
+with open('artifacts/title/thread_comments.json', 'w') as filehandle:
     json.dump(comments_list, filehandle, indent=2)
 
 

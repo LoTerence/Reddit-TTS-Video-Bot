@@ -3,7 +3,7 @@
 #
 #
 from moviepy.editor import *
-import json
+#import json
 
 
 #variables
@@ -70,7 +70,7 @@ my_list = ['geeks', 'for', 'geeks', 'like',
 
 # Read comments_list json and save to variable comments_list
 comments_list = []
-with open('artifacts/title/comments_json.txt', 'r') as filehandle:
+with open('artifacts/title/thread_comments.json', 'r') as filehandle:
     comments_list = json.load(filehandle)
 filehandle.close()
 

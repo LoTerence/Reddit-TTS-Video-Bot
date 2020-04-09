@@ -47,13 +47,13 @@ def deLinkify(s):
 
 #convert score to 'x.x k' if score is over 999
 #takes int and returns str
-def convertKarmaToK(score):
-    karma = ''
-    if (abs(score > 999)):
-        karma = "{0:.1f}".format(score/1000) + 'k'
+def convertNToK(n):
+    k = ''
+    if (abs(n > 999)):
+        k = "{0:.1f}".format(n/1000) + 'k'
     else:
-        karma = str(score)
-    return karma
+        k = str(n)
+    return k
 
 #replace \n with <br>
 def convertLnToBr(s):
