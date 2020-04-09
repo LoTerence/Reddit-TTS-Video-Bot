@@ -1,5 +1,6 @@
 .idea
 credentials.txt
+.~lock.todos.odt#
 
 venv/clips/
 venv/audio/
@@ -7,9 +8,14 @@ venv/screenshots/
 venv/misc/
 venv/title/
 venv/movie/
-venv/__pycache__/*
 venv/Scripts/*
 venv/Lib/*
+venv/__pycache__/*
 venv/Include/*
+
+venv/1clipTEMP_MPY_wvf_snd.mp3
+venv/2clipTEMP_MPY_wvf_snd.mp3
+venv/3clipTEMP_MPY_wvf_snd.mp3
+venv/yt_movieTEMP_MPY_wvf_snd.mp3
 
 venv/yt_movie.mp4

@@ -138,7 +138,7 @@ print('Static vf and outro added')
 #bg_music = AudioFileClip(f'misc/BetterDays-looped.wav')
 bg_music = AudioFileClip(f'misc/klonkey_donkey-looped2.wav')
 bg_music = bg_music.set_duration(final_clip.duration)
-#bg_music = bg_music.volumex(0.8)
+bg_music = bg_music.volumex(0.8)  # Lower the volume of bg music
 bg_music = CompositeAudioClip([final_clip.audio, bg_music])
 final_clip = final_clip.set_audio(bg_music)
 
