@@ -9,6 +9,7 @@ upload json to main.py
 '''
 import praw, json
 import helpfulFuncs as hf
+import secretVars as sv
 
 # vars
 top_n = 30   #number of comments to take screenshots of
@@ -16,9 +17,9 @@ comment_body_list = []
 
 
 # grab reddit comments with praw
-r = praw.Reddit(client_id='phFA9M0yBegAXQ', client_secret="ERBod3DqWJODSJio-_3Jo_2AVzA",
-                     password='easytoremember', user_agent='tts-script/0.1 by Proud-Anxiety',
-                     username='Proud-Anxiety')
+r = praw.Reddit(client_id=sv.reddit_client_id, client_secret=sv.reddit_client_secret,
+                     password=sv.reddit_pw, user_agent=sv.reddit_user_agent,
+                     username=sv.reddit_user)
 
 ##### -------  Replace this url with new url every time you want to run the script on a new askreddit post ------------------------------
 thread = r.submission(
