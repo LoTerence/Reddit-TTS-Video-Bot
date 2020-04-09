@@ -33,7 +33,7 @@ def empty_folder(folder):
                 shutil.rmtree(file_path)
         except Exception as e:
             print('Failed to delete %s. Reason: %s' % (file_path, e))
-        print('Emptied folder: ' + folder)
+    print('Emptied folder: ' + folder)
 
 #function for removing emojis from a string
 def deEmojify(inputString):
