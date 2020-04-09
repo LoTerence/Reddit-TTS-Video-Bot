@@ -29,6 +29,7 @@ def empty_folder(folder):
         try:
             if os.path.isfile(file_path) or os.path.islink(file_path):
                 os.unlink(file_path)
+                print('Emptied folder: ' + folder)
             elif os.path.isdir(file_path):
                 shutil.rmtree(file_path)
         except Exception as e:

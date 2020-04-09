@@ -7,7 +7,6 @@ venv/clips/
 venv/audio/
 venv/screenshots/
 venv/misc/
-venv/artifacts/title/
 venv/movie/
 venv/Scripts/*
 venv/Lib/*

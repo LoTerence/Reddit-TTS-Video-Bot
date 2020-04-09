@@ -33,7 +33,7 @@ with open('artifacts/title/comments_json.txt', 'r') as filehandle:
     comments_list = json.load(filehandle)
 filehandle.close()
 # groups_list: Divide comments list into a list of comment groups of 10
-groups_list = list(divide_chunks(comments_list, 10))
+groups_list = list(hf.divide_chunks(comments_list, 10))
 
 
 #make "final" image clip using title screenshot and title audio tts. Every clip after this will be concatenated to final_clip

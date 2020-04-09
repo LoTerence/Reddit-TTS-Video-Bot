@@ -40,6 +40,7 @@ for comment in thread.comments[:top_n]:
     d["body"] = comment_temp
     d["author"] = str(comment.author)
     d["score"] = comment.score
+    print('Added comment by author: ' + d["author"])
     comment_body_list.append(d)
 
 
