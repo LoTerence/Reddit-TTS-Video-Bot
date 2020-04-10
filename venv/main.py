@@ -64,7 +64,6 @@ if title_dict["all_awardings"]:
     for award in title_dict["all_awardings"]:
         s = award_template.substitute(img_url=award["icon"], awardCount=str(award["count"]))
         awards+=s
-        print('Concatenated ' + award["name"] + 'to awards')
 
 
 # Take a screenshot of the title/OP/thread title+text
@@ -97,15 +96,25 @@ for comment in comment_body_list:
     driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/r_comment.html')
     comment_height = driver.find_element_by_id("comment").size["height"] +2  #get the height of comment text area
 
+    # get the karma - convert comment['score'] to k's if over 999, else keep it the same
+    karma = hf.convertNToK(comment['score'])
+
+    # get the awardings list
+    awards = " "
+    bg_color = " "
+    if comment["all_awardings"]:
+        awards = ""
+        for award in comment["all_awardings"]:
+            s = award_template.substitute(img_url=award["icon"], awardCount=str(award["count"]))
+            awards += s
+            if award["name"] == "Gold":
+                bg_color = "background-color: rgba(221, 189, 55, 0.1);"
 
     # Split the comment into sentences
     #split comment body into a list of sentences seperated by punctuation
     comment_temp = comment['body']
     sentences = list(filter(None, hf.punctuation_regex.split(comment_temp)))
     print(sentences)  #test if I got the sentences right
-
-    # karma - convert comment['score'] to k's if over 999, else keep it the same
-    karma = hf.convertNToK(comment['score'])
 
     commentBodySub = ''  # make value for comment body substitute, as we loop through sentences we append sentences to commentBodySub
 
@@ -123,8 +132,8 @@ for comment in comment_body_list:
         commentBodySub+=sentence #append sentence to comment body for the template
 
         # create html files with the template using individual sentences
-        sub = comment_template.substitute(username=comment['author'], karma=karma,
-                                          awards=' ', px=str(comment_height)+'px', commentbody=commentBodySub)
+        sub = comment_template.substitute(username=comment['author'], karma=karma, bg_color=bg_color,
+                                          awards=awards, px=str(comment_height)+'px', commentbody=commentBodySub)
 
         #open blank file for writing reddit comment html
         f = open('html_templates/r_comment.html', 'w')

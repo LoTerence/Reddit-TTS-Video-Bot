@@ -10,13 +10,13 @@ div {
     font-family: Arial, sans-serif;
     vertical-align: baseline;
     color: rgb(215, 218, 220);
-    background-color: #1A1A1B;
 }
 
 body {
     padding-top: 10px;
     background-color: #1A1A1B;
     width: 900px;
+    background-color: #1A1A1B;
     /*zoom: 1.4;*/
 }
 
@@ -27,6 +27,7 @@ h1 {
 
 .total-comment {
     position: relative;
+    padding-left: 16px;
 }
 
 button {

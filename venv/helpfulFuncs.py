@@ -105,7 +105,6 @@ def createAward(award):
 # function for getting all the awardings. Param awardings - list of awardings from praw object. Returns list of award_dicts
 def get_awardings(awardings):
     all_awardings = []
-
     # append platinum, gold and silver awards first:
     for award in awardings:
         if award["name"] == "Platinum":
