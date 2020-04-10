@@ -59,9 +59,10 @@ driver.fullscreen_window()
 
 # Take a screenshot of the title/OP/thread title+text
 sub = title_template.substitute(score=hf.convertNToK(title_dict["score"]),
-                                username=title_dict["username"],
+                                username= 'u/' + title_dict["username"],
                                 awards=" ",  #todo add gilding feature
-                                thread_title=title_dict["title"], text=title_dict["selftext"],
+                                thread_title=title_dict["title"],
+                                text=title_dict["selftext"],
                                 num_comments=hf.convertNToK(title_dict["num_comments"]))
 f = open('html_templates/submissionPost.html', 'w') # open blank file for writing reddit comment html
 f.write(sub)  # write the html template with the comment data substituted in

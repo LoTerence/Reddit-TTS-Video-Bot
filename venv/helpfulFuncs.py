@@ -93,3 +93,11 @@ def takeScreenshot(driver, filename):
     im = Image.open(BytesIO(driver.get_screenshot_as_png()))
     im = im.crop((left, top, 950, bottom))  # crop screenshot so we only get the comment / template body
     im.save(filename)  # save screenshot as file
+
+# function for creating an award dict. Returns dict
+def createAward(award):
+    award_dict = {}
+    award_dict["name"] = award["name"]
+    award_dict["count"] = award["count"]
+    award_dict["icon"] = award["resized_icons"][1]["url"]  # getting the url of the 32x32 image
+    return award_dict
