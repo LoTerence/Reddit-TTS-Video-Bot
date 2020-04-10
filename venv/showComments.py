@@ -72,7 +72,6 @@ title_dict = {
     "nsfw": thread.over_18,
     "upvote_ratio": thread.upvote_ratio,
     "all_awardings": all_awardings,
-    #"all_awardings": thread.all_awardings,
 }
 #print(title_dict)
 
@@ -82,14 +81,17 @@ with open(f'artifacts/title/submission.json', 'w') as filehandle:
     print('Saved title_dict to artifacts/title/submission.json')
 filehandle.close()
 
-'''
+
+#get awards for comments
+
 #loop through top_n comments and save the text to json list
 for comment in thread.comments[:top_n]:
     d = {
         "body": " ",
         "author": " ",
-        "score": 0
-    }  # TODO: add gilding data
+        "score": 0,
+        #"all_awardings": all_awardings
+    }
     comment_temp = hf.deEmojify(comment.body)  # de-emojify to quickfix charset bug  TODO:refine charset bug fix
     comment_temp = hf.deLinkify(comment_temp)  # remove http links
     d["body"] = comment_temp
@@ -104,4 +106,3 @@ with open(f'artifacts/title/comment_bodies.json', 'w') as filehandle:
     json.dump(comment_body_list, filehandle, indent=2)
     print('Saved comment_body_list to artifacts/title/comment_bodies.json')
 filehandle.close()
-'''

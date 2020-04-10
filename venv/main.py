@@ -9,7 +9,7 @@ import helpfulFuncs as hf
 import ttsGenerator as ttsg
 
 
-# first thing I have to do: Empty [audio, screenshots, title?, clips] folders of old content
+# First thing I have to do: Empty [audio, screenshots, clips] folders of old content
 hf.empty_folder(f'artifacts/audio')
 hf.empty_folder(f'artifacts/clips')
 hf.empty_folder(f'artifacts/screenshots')
@@ -26,7 +26,7 @@ with open(f'artifacts/title/comment_bodies.json', 'r') as filehandle:
 filehandle.close()
 
 
-#prepare html templates
+# Prepare html templates
 f = open("html_templates/submissionTemplate.html","r")   #for title screenshot
 title_template = Template(f.read())
 f.close()
@@ -36,10 +36,9 @@ f.close()
 f = open("html_templates/reddit-comment-noheight.html","r")  #comment template for getting the height
 comment_template_h = Template(f.read())
 f.close()
-
-
-#make a value for the comment iterator:
-comment_i = 0 #comment index
+f = open("html_templates/awardTemplate.html","r")  #award template
+award_template = Template(f.read())
+f.close()
 
 
 #make a list of comments that will contain lists representing the sentences of each comment
@@ -50,6 +49,8 @@ comment_i = 0 #comment index
 # the screenshot and audio are strings of the screenshot and audio's file name
 # this will be saved to a json format so that it can be used by moviepy script later
 comments_list = []   #as we loop through comments, we add its list of sents (screenshots + audio) to this list
+#make a value for the comment iterator:
+comment_i = 0 #comment index
 
 
 # instantiate selenium webdriver object (for screenshots later)
@@ -57,10 +58,19 @@ driver = webdriver.Chrome()
 driver.fullscreen_window()
 
 
+awards= " "
+if title_dict["all_awardings"]:
+    awards = ""
+    for award in title_dict["all_awardings"]:
+        s = award_template.substitute(img_url=award["icon"], awardCount=str(award["count"]))
+        awards+= s
+        print('Concatenated ' + award["name"] + 'to awards')
+
+
 # Take a screenshot of the title/OP/thread title+text
 sub = title_template.substitute(score=hf.convertNToK(title_dict["score"]),
                                 username= 'u/' + title_dict["username"],
-                                awards=" ",  #todo add gilding feature
+                                awards=awards,  #TODO add gilding feature
                                 thread_title=title_dict["title"],
                                 text=title_dict["selftext"],
                                 num_comments=hf.convertNToK(title_dict["num_comments"]))

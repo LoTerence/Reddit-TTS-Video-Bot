@@ -183,6 +183,23 @@ button {
     padding-left: 4px;
 }
 
+.award {
+    display: inline-block;
+    white-space: nowrap;
+    /* color: ;*/
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+}
+
+.award-icon {
+    margin-left: 4px;
+    margin-right: 2px;
+    vertical-align: middle;
+    max-height: 16px;
+    max-width: 16px;
+}
+
 .title-area {
     border-radius: 0px;
     font-family: 'IBM Plex Sans', sans-serif;
