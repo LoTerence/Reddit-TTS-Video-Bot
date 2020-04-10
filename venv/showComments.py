@@ -2,19 +2,19 @@
 showComments.py
 written by Terence Lo
 
-take best n comments from askreddit thread
-save them to json
-be able to modify json
-upload json to main.py
+take title and original submission data and save them to json
+take best n comments from askreddit thread and save them to another json
+be able to modify jsons
+upload jsons to main.py
 '''
 import praw, json
 import helpfulFuncs as hf
 #import pprint
 
-# vars
-top_n = 30   #number of comments to take screenshots of
+
 # ---------   replace this url with new url every time you want to run the script on a new thread    ----------------------
 thread_url = f"https://www.reddit.com/r/AskReddit/comments/foslu3/if_covid19_wasnt_dominating_the_news_right_now/"
+top_n = 30   #number of comments to take screenshots of
 comment_body_list = []
 
 
@@ -34,33 +34,9 @@ thread.comment_sort = 'best' # get the best comments from the thread
 #print(thread.title)
 #pprint.pprint(vars(thread))  #see all of the thread variables
 
+
 #make a list of awards
-#append platinum, gold and silver awards first:
-all_awardings = []
-for award in thread.all_awardings:
-    if award["name"] == "Platinum":
-        #award_dict = hf.createAward(award)
-        all_awardings.append(hf.createAward(award))
-        print('Appended '+award["name"])
-        break
-for award in thread.all_awardings:
-    if award["name"] == "Gold":
-        #award_dict = hf.createAward(award)
-        all_awardings.append(hf.createAward(award))
-        print('Appended '+award["name"])
-        break
-for award in thread.all_awardings:
-    if award["name"] == "Silver":
-        #award_dict = hf.createAward(award)
-        all_awardings.append(hf.createAward(award))
-        print('Appended '+award["name"])
-        break
-for award in thread.all_awardings:
-    if ((award["name"] == "Platinum") or (award["name"] == "Gold") or (award["name"] == "Silver")):
-        print('already added')
-    else:
-        all_awardings.append(hf.createAward(award))
-        print('Appended '+award["name"])
+all_awardings = hf.get_awardings(thread.all_awardings)
 
 # grab data from the askreddit thread title
 title_dict = {
@@ -70,7 +46,6 @@ title_dict = {
     "score": thread.score,
     "num_comments": thread.num_comments,
     "nsfw": thread.over_18,
-    "upvote_ratio": thread.upvote_ratio,
     "all_awardings": all_awardings,
 }
 #print(title_dict)
@@ -82,21 +57,16 @@ with open(f'artifacts/title/submission.json', 'w') as filehandle:
 filehandle.close()
 
 
-#get awards for comments
-
 #loop through top_n comments and save the text to json list
 for comment in thread.comments[:top_n]:
-    d = {
-        "body": " ",
-        "author": " ",
-        "score": 0,
-        #"all_awardings": all_awardings
-    }
+    d = {}
     comment_temp = hf.deEmojify(comment.body)  # de-emojify to quickfix charset bug  TODO:refine charset bug fix
     comment_temp = hf.deLinkify(comment_temp)  # remove http links
+    all_awardings = hf.get_awardings(comment.all_awardings) # make a list of awards
     d["body"] = comment_temp
     d["author"] = str(comment.author)
     d["score"] = comment.score
+    d["all_awardings"] = all_awardings
     print('Added comment by author: ' + d["author"])
     comment_body_list.append(d)
 

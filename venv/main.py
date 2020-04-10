@@ -63,7 +63,7 @@ if title_dict["all_awardings"]:
     awards = ""
     for award in title_dict["all_awardings"]:
         s = award_template.substitute(img_url=award["icon"], awardCount=str(award["count"]))
-        awards+= s
+        awards+=s
         print('Concatenated ' + award["name"] + 'to awards')
 
 

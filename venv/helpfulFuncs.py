@@ -94,10 +94,38 @@ def takeScreenshot(driver, filename):
     im = im.crop((left, top, 950, bottom))  # crop screenshot so we only get the comment / template body
     im.save(filename)  # save screenshot as file
 
-# function for creating an award dict. Returns dict
+# function for creating an award dict. Param award - award object in prawobject.all_awardings list. Returns dict
 def createAward(award):
     award_dict = {}
     award_dict["name"] = award["name"]
     award_dict["count"] = award["count"]
     award_dict["icon"] = award["resized_icons"][1]["url"]  # getting the url of the 32x32 image
     return award_dict
+
+# function for getting all the awardings. Param awardings - list of awardings from praw object. Returns list of award_dicts
+def get_awardings(awardings):
+    all_awardings = []
+
+    # append platinum, gold and silver awards first:
+    for award in awardings:
+        if award["name"] == "Platinum":
+            all_awardings.append(createAward(award))
+            print('Appended ' + award["name"])
+            break
+    for award in awardings:
+        if award["name"] == "Gold":
+            all_awardings.append(createAward(award))
+            print('Appended ' + award["name"])
+            break
+    for award in awardings:
+        if award["name"] == "Silver":
+            all_awardings.append(createAward(award))
+            print('Appended ' + award["name"])
+            break
+    for award in awardings:
+        if ((award["name"] == "Platinum") or (award["name"] == "Gold") or (award["name"] == "Silver")):
+            print('already added')
+        else:
+            all_awardings.append(createAward(award))
+            print('Appended ' + award["name"])
+    return all_awardings
