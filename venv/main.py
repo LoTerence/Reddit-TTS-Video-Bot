@@ -18,17 +18,24 @@ hf.empty_folder(f'artifacts/screenshots')
 
 
 # Read comment_body_list json and save to variable comments_list
+title_dict = {}
+with open(f'artifacts/title/submission.json', 'r') as filehandle:
+    title_dict = json.load(filehandle)
+filehandle.close()
 comment_body_list = []
-with open('artifacts/title/comment_bodies.json', 'r') as filehandle:
+with open(f'artifacts/title/comment_bodies.json', 'r') as filehandle:
     comment_body_list = json.load(filehandle)
 filehandle.close()
 
 
-#prepare comment templates
-f = open("html_templates/reddit-comment.html","r")
+#prepare html templates
+f = open("html_templates/submissionTemplate.html","r")   #for title screenshot
+title_template = Template(f.read())
+f.close()
+f = open("html_templates/reddit-comment.html","r")  #regular reddit comment template
 comment_template = Template(f.read())
 f.close()
-f = open("html_templates/reddit-comment-noheight.html","r")
+f = open("html_templates/reddit-comment-noheight.html","r")  #comment template for getting the height
 comment_template_h = Template(f.read())
 f.close()
 
@@ -50,6 +57,30 @@ comments_list = []   #as we loop through comments, we add its list of sents (scr
 # instantiate selenium webdriver object (for screenshots later)
 driver = webdriver.Chrome()
 driver.fullscreen_window()
+
+
+# Take a screenshot of the title/OP/thread title+text
+sub = title_template.substitute(score=hf.convertNToK(title_dict["score"]),
+                                username=title_dict["username"],
+                                awards=" ",  #todo add gilding feature
+                                thread_title=title_dict["title"], text=title_dict["selftext"],
+                                num_comments=hf.convertNToK(title_dict["num_comments"]))
+f = open('html_templates/submissionPost.html', 'w') # open blank file for writing reddit comment html
+f.write(sub)  # write the html template with the comment data substituted in
+f.close()
+driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/submissionPost.html')
+#save screenshot of title/post in title folder
+bodyElement = driver.find_element_by_id('bodyid')
+location = bodyElement.location
+size = bodyElement.size
+left = location['x']
+top = location['y']
+bottom = location['y'] + size['height'] * 1.3
+im = Image.open(BytesIO(driver.get_screenshot_as_png()))
+im = im.crop((left, top, 950, bottom))  #crop screenshot so we only get the comment / template body
+screenshot_filename = 'artifacts/title/CAPTURE.png'
+im.save(screenshot_filename)  #save screenshot as file
+ttsg.gen_tts(title_dict["title"], 'artifacts/title/title_tts.mp3')
 
 
 #loop through top n comments and split into sentences
@@ -118,7 +149,8 @@ for comment in comment_body_list:
         speech = hf.cleanSpeech(sentence)
 
         #generates tts audio snippets and saves them in audios folder as mp3 files. Gets the file name
-        audio_filename = ttsg.generate_tts(speech, comment_i, sentence_i)
+        audio_filename = 'artifacts/audio/voice_' + str(comment_i) + '_' + str(sentence_i) + '.mp3'
+        ttsg.gen_tts(speech, audio_filename)
 
         # iterate sentence counter
         sentence_i+=1

@@ -14,15 +14,6 @@ import helpfulFuncs as hf
 top_n = 30   #number of comments to take screenshots of
 #replace this url with new url every time you want to run the script on a new thread
 thread_url = f"https://www.reddit.com/r/AskReddit/comments/foslu3/if_covid19_wasnt_dominating_the_news_right_now/"
-'''
-title_dict = {
-    "author":" ",
-    "title": " ",
-    "score": 0,
-    "num_comments": 0,
-    "nsfw": False,
-    "upvote_ratio": " ",
-}'''
 comment_body_list = []
 
 
@@ -43,7 +34,7 @@ thread.comment_sort = 'best' # get the best comments from the thread
 
 # grab data from the askreddit thread title
 title_dict = {
-    "author": str(thread.author),
+    "username": str(thread.author),
     "title": thread.title,
     "selftext": thread.selftext,
     "score": thread.score,
