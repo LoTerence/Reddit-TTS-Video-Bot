@@ -49,7 +49,9 @@ def deLinkify(s):
 #takes int and returns str
 def convertNToK(n):
     k = ''
-    if (abs(n > 999)):
+    if (abs(n > 99999)):
+        k = str(int((n - (n % 1000))/1000))+'k'
+    elif (abs(n > 999)):
         k = "{0:.1f}".format(n/1000) + 'k'
     else:
         k = str(n)
@@ -78,3 +80,5 @@ def divide_chunks(l, n):
     # looping till length l
     for i in range(0, len(l), n):
         yield l[i:i + n]
+
+print(convertNToK(107876))

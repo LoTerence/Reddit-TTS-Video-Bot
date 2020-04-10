@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&display=swap');
+
 html,
 body,
 div {
@@ -18,6 +20,11 @@ body {
     /*zoom: 1.4;*/
 }
 
+h1 {
+    margin: 0 0 0 0;
+    font-size: 100%;
+}
+
 .total-comment {
     position: relative;
 }
@@ -36,17 +43,17 @@ button {
     bottom: 0;
     left: 0;
     height: 100%;
-    width: 30px;
+    width: 40px;
 }
 
 .threadline-area {
     background-color: transparent;
-    width: 16px;
+    width: 24px;
     height: calc(100% - 42px);
     display: inline-block;
     text-align: center;
     bottom: 0;
-    margin-left: 5px;
+    margin-left: 7px;
     margin-top: 5px;
     vertical-align: top;
 }
@@ -61,18 +68,41 @@ button {
 }
 
 .vote-area {
-    max-width: 24px;
+    min-width: 24px;
     max-height: 40px;
+    align-items:center;
     text-align: center;
+    display:flex;
+    flex-direction: column;
+}
+
+.thread-voteButton {
+    width: 24px;
+    height: 24px;
+    color: rgb(129, 131, 132);
+    line-height: 24px;
+    font-size: 16px;
+    padding: 0 0 0 0;
 }
 
 .voteButton {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 20px;
     color: rgb(129, 131, 132);
-    line-height: 16px;
+    line-height: 24px;
     font-size: 16px;
+    border:none;
+}
+
+.submission-score {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: "IBM Plex Sans";
+    line-height: 16px;
+    color: #ffffff;
+    text-align:center;
     padding: 0 0 0 0;
+    margin: 0;
 }
 
 #upvote-button {
@@ -89,7 +119,6 @@ button {
 }
 
 .heading-area {
-    margin-left: 0;
     min-height: 18px;
     font-size: 12px;
     font-weight: 400;
@@ -97,6 +126,8 @@ button {
     color: rgb(129, 131, 132);
     display: inline-block;
     line-height: 20px;
+    margin-left: 8px;
+    padding: 0 0 0 0;
 }
 
 .username-div {
@@ -107,6 +138,13 @@ button {
     float: left;
 }
 
+.pbu-div {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    float: left;
+    padding-left: 4px;
+}
 .karma {
     font-size: 12px;
     font-weight: 400;
@@ -145,6 +183,16 @@ button {
     padding-left: 4px;
 }
 
+.title-area {
+    border-radius: 0px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 400;
+    padding: 0 0 0 4px;
+    margin-top: 0;
+    margin-left: 8px;
+    margin-bottom: 8px;
+}
+
 .text-area {
     border-radius: 4px;
     font-family: Noto Sans, Arial, sans-serif;
@@ -153,8 +201,9 @@ button {
     line-height: 21px;
     word-break: break-word;
     overflow: auto;
-    padding-bottom: 1px;
-    margin-bottom: -1px;
+    padding-bottom: 4px;
+    padding-left: 2px;
+    margin-left: 8px;
 }
 
 .footing-area {
@@ -173,3 +222,9 @@ button {
     white-space: nowrap;
     color: rgb(129, 131, 132);
 }
+
+/*
+#menuButtonId {
+    font-size: 16px;
+}
+*/
