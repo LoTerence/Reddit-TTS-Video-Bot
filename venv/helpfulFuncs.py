@@ -4,6 +4,8 @@ for cleaner and more streamlined code
 '''
 import os, shutil
 import re
+from PIL import Image
+from io import BytesIO
 
 # dictionary for bad and weird words and their replacements:
 # also replaces program breaking words like <br> etc
@@ -81,4 +83,13 @@ def divide_chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]
 
-print(convertNToK(107876))
+def takeScreenshot(driver, filename):
+    bodyElement = driver.find_element_by_id('bodyid')
+    location = bodyElement.location
+    size = bodyElement.size
+    left = location['x']
+    top = location['y']
+    bottom = location['y'] + size['height'] * 1.3
+    im = Image.open(BytesIO(driver.get_screenshot_as_png()))
+    im = im.crop((left, top, 950, bottom))  # crop screenshot so we only get the comment / template body
+    im.save(filename)  # save screenshot as file

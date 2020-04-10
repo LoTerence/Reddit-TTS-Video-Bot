@@ -4,8 +4,6 @@ written by Terence Lo
 '''
 from string import Template
 from selenium import webdriver
-from PIL import Image
-from io import BytesIO
 import json
 import helpfulFuncs as hf
 import ttsGenerator as ttsg
@@ -69,17 +67,9 @@ f = open('html_templates/submissionPost.html', 'w') # open blank file for writin
 f.write(sub)  # write the html template with the comment data substituted in
 f.close()
 driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/submissionPost.html')
-#save screenshot of title/post in title folder
-bodyElement = driver.find_element_by_id('bodyid')
-location = bodyElement.location
-size = bodyElement.size
-left = location['x']
-top = location['y']
-bottom = location['y'] + size['height'] * 1.3
-im = Image.open(BytesIO(driver.get_screenshot_as_png()))
-im = im.crop((left, top, 950, bottom))  #crop screenshot so we only get the comment / template body
-screenshot_filename = 'artifacts/title/CAPTURE.png'
-im.save(screenshot_filename)  #save screenshot as file
+
+#save screenshot and tts of title in title folder
+hf.takeScreenshot(driver, 'artifacts/title/CAPTURE.png')
 ttsg.gen_tts(title_dict["title"], 'artifacts/title/title_tts.mp3')
 
 
@@ -132,18 +122,8 @@ for comment in comment_body_list:
 
         # take screenshot of reddit comment and save to screenshots folder
         driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/r_comment.html')  #open the html template in selenium webdriver
-
-        #save screenshot in screenshots folder
-        bodyElement = driver.find_element_by_id('bodyid')
-        location = bodyElement.location
-        size = bodyElement.size
-        left = location['x']
-        top = location['y']
-        bottom = location['y'] + size['height'] * 1.3
-        im = Image.open(BytesIO(driver.get_screenshot_as_png()))
-        im = im.crop((left, top, 950, bottom))  #crop screenshot so we only get the comment / template body
-        screenshot_filename = 'artifacts/screenshots/screenshot_' + str(comment_i) + '_' + str(sentence_i)+ '.png'
-        im.save(screenshot_filename)  #save screenshot as file
+        screenshot_filename = 'artifacts/screenshots/screenshot_' + str(comment_i) + '_' + str(sentence_i) + '.png'
+        hf.takeScreenshot(driver, screenshot_filename)
 
         #replaces bad and weird words in sentence with ad friendly child words
         speech = hf.cleanSpeech(sentence)
