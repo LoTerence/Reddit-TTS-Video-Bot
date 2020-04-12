@@ -19,6 +19,7 @@ clip_filenames = []
 
 # make a video clip for the static video effect
 static_vf = VideoFileClip(f"misc/static_vf.mp4")
+static_vf = static_vf.volumex(2.5)
 # make an image clip for the background picture
 #bg_pic = ImageClip(f"misc/bg-pic.jpg")
 
@@ -38,7 +39,7 @@ groups_list = list(hf.divide_chunks(comments_list, 10))
 
 #make "final" image clip using title screenshot and title audio tts. Every clip after this will be concatenated to final_clip
 audio = AudioFileClip(f"artifacts/title/title_tts.mp3")
-audio = audio.volumex(1.5)
+audio = audio.volumex(1.8)
 image = (ImageClip(f"artifacts/title/Capture.PNG")
 	.set_duration(audio.duration)
 	.resize(width=w)
@@ -87,7 +88,7 @@ for group in groups_list:
 				print('Alert: File \'' + sentence[0] + '\' does not exist')  # do nothing
 			else:  #do all this if it exists
 				audio = AudioFileClip(sentence[1])
-				audio = audio.volumex(1.6)
+				audio = audio.volumex(1.8)
 				image = (ImageClip(sentence[0])
 						 .set_duration(audio.duration)
 						 .resize(width=w)
@@ -132,9 +133,9 @@ print('Static vf and outro added')
 
 # Add looped music
 #bg_music = AudioFileClip(f'misc/BetterDays-looped.wav')
-bg_music = AudioFileClip(f'misc/klonkey_donkey-looped2.wav')
+bg_music = AudioFileClip(f'misc/Fun-openMU5IC-looped.wav')
 bg_music = bg_music.set_duration(final_clip.duration)
-bg_music = bg_music.volumex(0.7)  # Lower the volume of bg music
+bg_music = bg_music.volumex(0.4)  # Lower the volume of bg music
 bg_music = CompositeAudioClip([final_clip.audio, bg_music])
 final_clip = final_clip.set_audio(bg_music)
 

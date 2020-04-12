@@ -107,8 +107,8 @@ for comment in comment_body_list:
         for award in comment["all_awardings"]:
             s = award_template.substitute(img_url=award["icon"], awardCount=str(award["count"]))
             awards += s
-            if award["name"] == "Gold":
-                bg_color = "background-color: rgba(221, 189, 55, 0.1);"
+            if (award["name"] == "Gold") or (award["name"] == "Platinum"):
+                bg_color = "background-color: rgba(221, 189, 55, 0.1)"
 
     # Split the comment into sentences
     #split comment body into a list of sentences seperated by punctuation

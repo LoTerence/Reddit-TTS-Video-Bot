@@ -9,9 +9,13 @@ venv/Lib/*
 venv/__pycache__/*
 venv/Include/*
 
+venv/debug.log
+venv/pyvenv.cfg
+
+venv/html_templates/r_comment.html
+venv/html_templates/submissionPost.html
+
 venv/1clipTEMP_MPY_wvf_snd.mp3
 venv/2clipTEMP_MPY_wvf_snd.mp3
 venv/3clipTEMP_MPY_wvf_snd.mp3
 venv/yt_movieTEMP_MPY_wvf_snd.mp3
-
-venv/yt_movie.mp4

@@ -128,3 +128,15 @@ def get_awardings(awardings):
             all_awardings.append(createAward(award))
             print('Appended ' + award["name"])
     return all_awardings
+
+#function for creating a comment dictionary in showComments.py  @param comment represents comment from praw.reddit
+def createCommentDict(comment):
+    d = {}
+    comment_temp = deEmojify(comment.body)  # de-emojify to quickfix charset bug  TODO:refine charset bug fix
+    comment_temp = deLinkify(comment_temp)  # remove http links
+    all_awardings = get_awardings(comment.all_awardings)  # make a list of awards
+    d["body"] = comment_temp
+    d["author"] = str(comment.author)
+    d["score"] = comment.score
+    d["all_awardings"] = all_awardings
+    return d

@@ -9,11 +9,11 @@ upload jsons to main.py
 '''
 import praw, json
 import helpfulFuncs as hf
-#import pprint
+import pprint
 
 
 # ---------   replace this url with new url every time you want to run the script on a new thread    ----------------------
-thread_url = f"https://www.reddit.com/r/AskReddit/comments/foslu3/if_covid19_wasnt_dominating_the_news_right_now/"
+thread_url = "https://www.reddit.com/r/AskReddit/comments/fu5ac0/exhomeless_redditors_what_was_the_scariest_thing/"
 top_n = 30   #number of comments to take screenshots of
 comment_body_list = []
 
@@ -33,8 +33,22 @@ thread = r.submission(url=thread_url)
 thread.comment_sort = 'best' # get the best comments from the thread
 #print(thread.title)
 #pprint.pprint(vars(thread))  #see all of the thread variables
-
-
+'''x = thread.comments[0].replies
+print(' ')
+print('replies: ')
+print(x)
+print(' ')
+print('replies vars: ')
+pprint.pprint(vars(x))  #see all of the thread variables
+xl = x.list()
+print(' ')
+print('list: ')
+print (xl)
+x.replace_more(limit=0)  #remove moreComment instances
+print(' ')
+print('list 2: ')
+print (x.list())
+print(' ')'''
 #make a list of awards
 all_awardings = hf.get_awardings(thread.all_awardings)
 
@@ -59,15 +73,19 @@ filehandle.close()
 
 #loop through top_n comments and save the text to json list
 for comment in thread.comments[:top_n]:
-    d = {}
-    comment_temp = hf.deEmojify(comment.body)  # de-emojify to quickfix charset bug  TODO:refine charset bug fix
-    comment_temp = hf.deLinkify(comment_temp)  # remove http links
-    all_awardings = hf.get_awardings(comment.all_awardings) # make a list of awards
-    d["body"] = comment_temp
-    d["author"] = str(comment.author)
-    d["score"] = comment.score
-    d["all_awardings"] = all_awardings
+    d = hf.createCommentDict(comment)
     print('Added comment by author: ' + d["author"])
+    c = comment.replies
+    c.replace_more(limit=0)  #removes moreComments instances in comment.replies
+    cd = c.list()  #get the list of child comments
+    print('c list: ')
+    print(cd)
+    if cd:
+        print(cd[0])
+        d["topReply"] = hf.createCommentDict(cd[0])
+    else:
+        print('cd doesnt exist')
+        d["topReply"] = {}
     comment_body_list.append(d)
 
 
