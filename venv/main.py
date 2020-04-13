@@ -10,37 +10,37 @@ import ttsGenerator as ttsg
 
 
 # First thing I have to do: Empty [audio, screenshots, clips] folders of old content
-hf.empty_folder(f'artifacts/audio')
-hf.empty_folder(f'artifacts/clips')
-hf.empty_folder(f'artifacts/screenshots')
+hf.empty_folder('artifacts/audio')
+hf.empty_folder('artifacts/clips')
+hf.empty_folder('artifacts/screenshots')
 
 
 # Read comment_body_list json and save to variable comments_list
 title_dict = {}
-with open(f'artifacts/title/submission.json', 'r') as filehandle:
+with open('artifacts/title/submission.json', 'r') as filehandle:
     title_dict = json.load(filehandle)
 filehandle.close()
 comment_body_list = []
-with open(f'artifacts/title/comment_bodies.json', 'r') as filehandle:
+with open('artifacts/title/comment_bodies.json', 'r') as filehandle:
     comment_body_list = json.load(filehandle)
 filehandle.close()
 
 
 # Prepare html templates
-f = open("html_templates/submissionTemplate.html","r")   #for title screenshot
+f = open("html_templates/submissionTemplate.html","r")   #for title/submission screenshot
 title_template = Template(f.read())
-f.close()
-f = open("html_templates/reddit-comment.html","r")  #regular reddit comment template
-comment_template = Template(f.read())
-f.close()
-f = open("html_templates/reddit-comment-noheight.html","r")  #comment template for getting the height
-comment_template_h = Template(f.read())
 f.close()
 f = open("html_templates/awardTemplate.html","r")  #award template
 award_template = Template(f.read())
 f.close()
+f = open("html_templates/threadTemplate.html","r")  #thread template
+thread_template = Template(f.read())
+f.close()
+f = open("html_templates/commentTemplate.html")  #single comment template
+comm_template = Template(f.read())
+f.close()
 
-
+#TODO: might replace with a numpy list or something faster or numpy list of dicts
 #make a list of comments that will contain lists representing the sentences of each comment
 # [ comment0[ sentence0[ screenshot0, audio0 ], s1[ sc1, a1 ], s2[ sc2, a2 ] ... ]
 #   c1[ s0[ sc0, a0 ], ...]
@@ -69,32 +69,34 @@ if title_dict["all_awardings"]:
 # Take a screenshot of the title/OP/thread title+text
 sub = title_template.substitute(score=hf.convertNToK(title_dict["score"]),
                                 username= 'u/' + title_dict["username"],
-                                awards=awards,  #TODO add gilding feature
+                                awards=awards,
                                 thread_title=title_dict["title"],
                                 text=title_dict["selftext"],
                                 num_comments=hf.convertNToK(title_dict["num_comments"]))
-f = open('html_templates/submissionPost.html', 'w') # open blank file for writing reddit comment html
+f = open('html_templates/submissionPost.html', 'w') # open blank file for writing reddit submission html
 f.write(sub)  # write the html template with the comment data substituted in
 f.close()
 driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/submissionPost.html')
-
 #save screenshot and tts of title in title folder
 hf.takeScreenshot(driver, 'artifacts/title/CAPTURE.png')
 ttsg.gen_tts(title_dict["title"], 'artifacts/title/title_tts.mp3')
 
 
-#loop through top n comments and split into sentences
+#loop through top n comments and get their child comments and split into sentences
 for comment in comment_body_list:
 
     #get the height of the comment text area
     comment_temp = comment['body']  # save content of comment['body'] to temporary str var
     comment_temp = hf.convertLnToBr(comment_temp)
-    sub = comment_template_h.substitute(username=comment['author'], commentbody=comment_temp)  # write comment content into noheight template
-    f = open('html_templates/r_comment.html', 'w') # open blank file for writing reddit comment html
+    sub = comm_template.substitute(username=comment['author'], karma=" ", bg_color=" ",
+                                      awards=" ", text_height=" ", commentbody=comment_temp, margin_left=" ",
+                                   childComment="")
+    sub = thread_template.substitute(commentsDiv=sub)
+    f = open('html_templates/t_comments.html', 'w') # open blank file for writing reddit comment html
     f.write(sub)  # write the html template with the comment data substituted in
     f.close()
-    driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/r_comment.html')
-    comment_height = driver.find_element_by_id("comment").size["height"] +2  #get the height of comment text area
+    driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/t_comments.html')
+    comment_height = 'height:'+ str(driver.find_element_by_id("comment").size["height"] +2)+'px'  #get the height of comment text area
 
     # get the karma - convert comment['score'] to k's if over 999, else keep it the same
     karma = hf.convertNToK(comment['score'])
@@ -122,7 +124,7 @@ for comment in comment_body_list:
 
     # sentence list: will contain lists representing the screenshot and audio
     # this will then be added to comment_list at the end of the sentences loop
-    sentences_list = []
+    sentences_list = []  # TODO: maybe change this to dict
 
     for sentence in sentences:
 
@@ -132,16 +134,18 @@ for comment in comment_body_list:
         commentBodySub+=sentence #append sentence to comment body for the template
 
         # create html files with the template using individual sentences
-        sub = comment_template.substitute(username=comment['author'], karma=karma, bg_color=bg_color,
-                                          awards=awards, px=str(comment_height)+'px', commentbody=commentBodySub)
-
+        sub = comm_template.substitute(username=comment['author'], karma=karma, bg_color=bg_color,
+                                          awards=awards, text_height=comment_height,
+                                       commentbody=commentBodySub, margin_left=" ",
+                                       childComment="")
+        tsub = thread_template.substitute(commentsDiv=sub)
         #open blank file for writing reddit comment html
-        f = open('html_templates/r_comment.html', 'w')
-        f.write(sub) #write the html template with the comment data substituted in
+        f = open('html_templates/t_comments.html', 'w')
+        f.write(tsub) #write the html template with the comment data substituted in
         f.close() #save the write
 
         # take screenshot of reddit comment and save to screenshots folder
-        driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/r_comment.html')  #open the html template in selenium webdriver
+        driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/t_comments.html')
         screenshot_filename = 'artifacts/screenshots/screenshot_' + str(comment_i) + '_' + str(sentence_i) + '.png'
         hf.takeScreenshot(driver, screenshot_filename)
 

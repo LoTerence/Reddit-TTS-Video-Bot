@@ -19,7 +19,7 @@ clip_filenames = []
 
 # make a video clip for the static video effect
 static_vf = VideoFileClip(f"misc/static_vf.mp4")
-static_vf = static_vf.volumex(2.5)
+static_vf = static_vf.volumex(2.8)
 # make an image clip for the background picture
 #bg_pic = ImageClip(f"misc/bg-pic.jpg")
 
@@ -135,7 +135,7 @@ print('Static vf and outro added')
 #bg_music = AudioFileClip(f'misc/BetterDays-looped.wav')
 bg_music = AudioFileClip(f'misc/Fun-openMU5IC-looped.wav')
 bg_music = bg_music.set_duration(final_clip.duration)
-bg_music = bg_music.volumex(0.4)  # Lower the volume of bg music
+bg_music = bg_music.volumex(0.2)  # Lower the volume of bg music
 bg_music = CompositeAudioClip([final_clip.audio, bg_music])
 final_clip = final_clip.set_audio(bg_music)
 

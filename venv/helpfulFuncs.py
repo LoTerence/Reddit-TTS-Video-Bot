@@ -22,7 +22,7 @@ bad_words = {
 }
 
 # compiles the punctuation into one regex object: punctuation_regex (for parsing sentences in comment.body)
-punctuation_regex = re.compile('(?<=[\n.!,?:;])+')
+punctuation_regex = re.compile('(?<=[\n.!?:;])+')  #maybe add commas and elipticals
 
 # function that empties contents of a folder. Returns nothing
 def empty_folder(folder):

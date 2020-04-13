@@ -33,22 +33,7 @@ thread = r.submission(url=thread_url)
 thread.comment_sort = 'best' # get the best comments from the thread
 #print(thread.title)
 #pprint.pprint(vars(thread))  #see all of the thread variables
-'''x = thread.comments[0].replies
-print(' ')
-print('replies: ')
-print(x)
-print(' ')
-print('replies vars: ')
-pprint.pprint(vars(x))  #see all of the thread variables
-xl = x.list()
-print(' ')
-print('list: ')
-print (xl)
-x.replace_more(limit=0)  #remove moreComment instances
-print(' ')
-print('list 2: ')
-print (x.list())
-print(' ')'''
+
 #make a list of awards
 all_awardings = hf.get_awardings(thread.all_awardings)
 

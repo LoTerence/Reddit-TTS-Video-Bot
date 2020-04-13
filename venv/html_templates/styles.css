@@ -47,6 +47,15 @@ button {
     width: 40px;
 }
 
+.sidebar-continued {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 40px;
+}
+
 .threadline-area {
     background-color: transparent;
     width: 24px;
