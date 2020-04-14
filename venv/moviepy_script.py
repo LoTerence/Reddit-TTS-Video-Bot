@@ -30,7 +30,7 @@ hf.empty_folder(f'artifacts/clips')
 
 # Read comments_list json and save to variable comments_list
 comments_list = []
-with open('artifacts/title/thread_comments.json', 'r') as filehandle:
+with open('artifacts/title/screenshots_and_audios.json', 'r') as filehandle:
     comments_list = json.load(filehandle)
 filehandle.close()
 # groups_list: Divide comments list into a list of comment groups of 10
@@ -61,7 +61,7 @@ for group in groups_list:
 	# Create a clip for concatenating the looped clips onto. This will be written to mp4 file for later
 	temp_clip = ColorClip(size=dim, color=bg_color, ismask=False, duration=(00.05))
 
-	#loop through comments in comments_list
+	#loop through comments in group
 	for comment in group:
 
 		# check if the screenshot exists and add static effect

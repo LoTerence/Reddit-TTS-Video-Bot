@@ -6,6 +6,7 @@ import os, shutil
 import re
 from PIL import Image
 from io import BytesIO
+from string import Template
 
 # dictionary for bad and weird words and their replacements:
 # also replaces program breaking words like <br> etc
@@ -102,7 +103,8 @@ def createAward(award):
     award_dict["icon"] = award["resized_icons"][1]["url"]  # getting the url of the 32x32 image
     return award_dict
 
-# function for getting all the awardings. Param awardings - list of awardings from praw object. Returns list of award_dicts
+# function for getting a list of dicts representing all the awardings from praw comment/submission.
+# Param awardings - list of awardings from praw object. Returns list of award_dicts
 def get_awardings(awardings):
     all_awardings = []
     # append platinum, gold and silver awards first:
@@ -129,6 +131,25 @@ def get_awardings(awardings):
             print('Appended ' + award["name"])
     return all_awardings
 
+# function that takes awardings dict from comment_bodies json and returns an html str with the
+#   award Template for main.py
+#   @param comment: represents an individual comment or submission dict from comment_bodies json or submission json
+def awardListToTemplateStr(comment):
+    award_template = readTemplate("html_templates/awardTemplate.html") # award template
+    awards = " "
+    for award in comment["all_awardings"]:
+        s = award_template.substitute(img_url=award["icon"], awardCount=str(award["count"]))
+        awards += s
+    return awards
+
+def checkForGold(comment):  #takes comment and checks if it was awarded gold or plat and returns True if it does, else False
+    if (comment["all_awardings"][0]["name"] == "Gold") or (comment["all_awardings"][0]["name"] == "Platinum"):
+        #bg_color = "background-color: rgba(221, 189, 55, 0.1)"
+        return True
+    else:
+        return False
+
+
 #function for creating a comment dictionary in showComments.py  @param comment represents comment from praw.reddit
 def createCommentDict(comment):
     d = {}
@@ -140,3 +161,20 @@ def createCommentDict(comment):
     d["score"] = comment.score
     d["all_awardings"] = all_awardings
     return d
+
+#function for reading Templates to a file.
+# @param templatePath: path to html template file
+# returns Template obj
+def readTemplate(templatePath):
+    f = open(templatePath, "r")
+    temp = Template(f.read())
+    f.close()
+    return temp
+
+#function for writing Templates to a file.
+# @param filePath: path to write file
+# @param sub: data to write into file
+def writeTemplate(sub, filePath):
+    f = open(filePath, 'w')  # open blank file for writing reddit submission html
+    f.write(sub)  # write the html template with the comment data substituted in
+    f.close()

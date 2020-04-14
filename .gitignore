@@ -12,7 +12,7 @@ venv/Include/*
 venv/debug.log
 venv/pyvenv.cfg
 
-venv/html_templates/r_comment.html
+venv/html_templates/t_comments.html
 venv/html_templates/submissionPost.html
 
 venv/1clipTEMP_MPY_wvf_snd.mp3
