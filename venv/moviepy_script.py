@@ -5,21 +5,20 @@
 from moviepy.editor import *
 import json
 import helpfulFuncs as hf
-
+from PIL import Image
 
 
 #variables
 dim = (1280,720) #720p # video dimensions
-#dim = (854,480) #480p
-#dim = (426,240) #240p
-w = 1150 #width of image should be <= to width of dim
+w = 1200 #width of image should be <= to width of dim
+h = 720 #height of image should be <= height of dim
 bg_color = (26,26,27)  # reddit dark mode bg color, dark-dark-grey #1A1A1B
 clip_filenames = []
 
 
 # make a video clip for the static video effect
 static_vf = VideoFileClip(f"misc/static_vf.mp4")
-static_vf = static_vf.volumex(2.8)
+static_vf = static_vf.volumex(2.8)   #TODO fix static_vf/mp4 sound
 # make an image clip for the background picture
 #bg_pic = ImageClip(f"misc/bg-pic.jpg")
 
@@ -33,23 +32,23 @@ comments_list = []
 with open('artifacts/title/screenshots_and_audios.json', 'r') as filehandle:
     comments_list = json.load(filehandle)
 filehandle.close()
-# groups_list: Divide comments list into a list of comment groups of 10
+# groups_list: Divide comments list into a list of comment groups of 10 to resolve moviePy recursion error bug
 groups_list = list(hf.divide_chunks(comments_list, 10))
 
 
 #make "final" image clip using title screenshot and title audio tts. Every clip after this will be concatenated to final_clip
 audio = AudioFileClip(f"artifacts/title/title_tts.mp3")
 audio = audio.volumex(1.8)
-image = (ImageClip(f"artifacts/title/Capture.PNG")
+imageC = (ImageClip(f"artifacts/title/Capture.PNG")
 	.set_duration(audio.duration)
 	.resize(width=w)
 	.on_color(size=dim, color=bg_color)
 	.set_fps(5)
 	.set_position(("center","center"))
 	.set_audio(audio))
-#bg_pic.set_duration(audio.duration)  #set duration of bg_pic
-#image = CompositeVideoClip([bg_pic,image], size=dim).set_duration(audio.duration)  #compose image on top of bg_pic
-image.write_videofile('artifacts/clips/0intro.mp4')
+'''bg_pic.set_duration(audio.duration)  #set duration of bg_pic
+imageC = CompositeVideoClip([bg_pic,imageC], size=dim).set_duration(audio.duration)  #compose imageC on top of bg_pic'''
+imageC.write_videofile('artifacts/clips/0intro.mp4')
 
 
 group_i = 1 # 'group of 10' counter
@@ -89,23 +88,24 @@ for group in groups_list:
 			else:  #do all this if it exists
 				audio = AudioFileClip(sentence[1])
 				audio = audio.volumex(1.8)
-				image = (ImageClip(sentence[0])
+
+				imageC = (ImageClip(sentence[0])
 						 .set_duration(audio.duration)
-						 .resize(width=w)
+						 #.resize(width=w)
 						 .on_color(size=dim, color=bg_color)  #set screenshot on top of colorclip with bg_color as background color
 						 .set_fps(5)
 						 .set_position(("center", "center"))
 						 .set_audio(audio))
-				#bg_pic.set_duration(audio.duration)  #set duration for big_pic imageclip
-				#image = CompositeVideoClip([bg_pic, image], size=dim).set_duration(audio.duration)  #set screenshot image on top of bg_pic imageclip
+				'''bg_pic.set_duration(audio.duration)  #set duration for big_pic imageclip
+				imageC = CompositeVideoClip([bg_pic, imageC], size=dim).set_duration(audio.duration)  #set screenshot imageC on top of bg_pic imageclip'''
 
-				temp_clip = concatenate_videoclips([temp_clip, image])
+				temp_clip = concatenate_videoclips([temp_clip, imageC])
 				print('Concatenated clip \'' + str(sentence[0]) + '\'' + ' to group ' + str(group_i) + ' clip')
 
-				#  ------     Just in case I need to save the individual clips     --------
-				# image.write_videofile("artifacts/clips/clip_"+str(comment_i) +'_'+str(sentence_i)+'.mp4')
-				# print('saved clip ' + str(comment_i)+'_'+str(sentence_i))
-				# sentence_i += 1
+				'''#  ------     Just in case I need to save the individual clips     --------
+				imageC.write_videofile("artifacts/clips/clip_"+str(comment_i) +'_'+str(sentence_i)+'.mp4')
+				print('saved clip ' + str(comment_i)+'_'+str(sentence_i))
+				sentence_i += 1'''
 			finally:
 				f.close()
 			# END sentences loop
@@ -125,7 +125,7 @@ for clip_filename in clip_filenames:
 	final_clip = concatenate_videoclips([final_clip,temp_clip])
 
 
-# add the outro to the final clip
+# add the outro to the final clip   #TODO make a better outro
 temp_clip = VideoFileClip(f"misc/outro.mp4")
 final_clip = concatenate_videoclips([final_clip, static_vf, temp_clip])
 print('Static vf and outro added')
@@ -149,6 +149,6 @@ final_clip.close()
 temp_clip.close()
 static_vf.close()
 audio.close()
-image.close()
+imageC.close()
 #bg_pic.close()
 bg_music.close()

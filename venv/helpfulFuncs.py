@@ -178,3 +178,18 @@ def writeTemplate(sub, filePath):
     f = open(filePath, 'w')  # open blank file for writing reddit submission html
     f.write(sub)  # write the html template with the comment data substituted in
     f.close()
+
+
+def resizeScreenshots(maxWidth,maxHeight):
+    print("Resizing images in screenshot folder...")
+    for filename in os.listdir("artifacts/screenshots"):
+        im = Image.open("artifacts/screenshots/"+filename)
+        h = im.height
+        w = im.width
+        if (h*maxWidth/w)>maxHeight:
+            w = round(w*maxHeight/h)
+            im=im.resize( (w , maxHeight) )
+        else:
+            h = round(h*maxWidth/w)
+            im=im.resize( (maxWidth, h) )
+        im.save("artifacts/screenshots/"+filename)

@@ -59,18 +59,22 @@ filehandle.close()
 #loop through top_n comments and save the text to json list
 for comment in thread.comments[:top_n]:
     d = hf.createCommentDict(comment)
-    print('Added comment by author: ' + d["author"])
+    d["threadComments"] = []
     c = comment.replies
     c.replace_more(limit=0)  #removes moreComments instances in comment.replies
-    cd = c.list()  #get the list of child comments
-    print('c list: ')
-    print(cd)
-    if cd:
-        print(cd[0])
-        d["topReply"] = hf.createCommentDict(cd[0])
-    else:
-        print('cd doesnt exist')
-        d["topReply"] = {}
+    c = c.list()  #get the list of child comments
+    if c:
+        print(c[0])
+        d["threadComments"].append(hf.createCommentDict(c[0]))
+        next = c[0]
+        nextC = next.replies
+        nextC.replace_more(limit=0)
+        nextC = nextC.list()
+        if nextC:
+            print(nextC[0])
+            d["threadComments"].append(hf.createCommentDict(nextC[0]))
+
+    print('Added comment by author: ' + d["author"])
     comment_body_list.append(d)
 
 
