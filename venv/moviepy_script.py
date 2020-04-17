@@ -5,15 +5,21 @@
 from moviepy.editor import *
 import json
 import helpfulFuncs as hf
-from PIL import Image
 
 
 #variables
+resizeNeeded = False
+#resizeNeeded = True
 dim = (1280,720) #720p # video dimensions
 w = 1200 #width of image should be <= to width of dim
 h = 720 #height of image should be <= height of dim
 bg_color = (26,26,27)  # reddit dark mode bg color, dark-dark-grey #1A1A1B
 clip_filenames = []
+
+
+#resize screenshots
+if resizeNeeded:
+	hf.resizeScreenshots(w, h)
 
 
 # make a video clip for the static video effect
@@ -23,36 +29,17 @@ static_vf = static_vf.volumex(2.8)   #TODO fix static_vf/mp4 sound
 #bg_pic = ImageClip(f"misc/bg-pic.jpg")
 
 
-#clear clips folder
-hf.empty_folder(f'artifacts/clips')
-
-
 # Read comments_list json and save to variable comments_list
 comments_list = []
-with open('artifacts/title/screenshots_and_audios.json', 'r') as filehandle:
+with open('artifacts/submission/screenshots_and_audios.json', 'r') as filehandle:
     comments_list = json.load(filehandle)
 filehandle.close()
+
 # groups_list: Divide comments list into a list of comment groups of 10 to resolve moviePy recursion error bug
 groups_list = list(hf.divide_chunks(comments_list, 10))
-
-
-#make "final" image clip using title screenshot and title audio tts. Every clip after this will be concatenated to final_clip
-audio = AudioFileClip(f"artifacts/title/title_tts.mp3")
-audio = audio.volumex(1.8)
-imageC = (ImageClip(f"artifacts/title/Capture.PNG")
-	.set_duration(audio.duration)
-	.resize(width=w)
-	.on_color(size=dim, color=bg_color)
-	.set_fps(5)
-	.set_position(("center","center"))
-	.set_audio(audio))
-'''bg_pic.set_duration(audio.duration)  #set duration of bg_pic
-imageC = CompositeVideoClip([bg_pic,imageC], size=dim).set_duration(audio.duration)  #compose imageC on top of bg_pic'''
-imageC.write_videofile('artifacts/clips/0intro.mp4')
-
-
 group_i = 1 # 'group of 10' counter
 #comment_i = 0 #comment counter
+
 
 #loop through groups of 10, write a clip after putting all the pieces together
 for group in groups_list:
@@ -141,7 +128,7 @@ final_clip = final_clip.set_audio(bg_music)
 
 
 # Write the result to a file: "movie/yt_movie.mp4"
-final_clip.write_videofile(f"artifacts/movie/yt_movie.mp4")
+final_clip.write_videofile("artifacts/movie/yt_movie.mp4")
 
 
 #close all clips to free up resources

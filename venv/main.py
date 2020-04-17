@@ -1,5 +1,6 @@
 '''
 reddit tts youtube bot for automating askreddit thread youtube video creation
+This script saves screenshots and audios and saves the locations to a json
 written by Terence Lo
 '''
 from string import Template
@@ -11,23 +12,17 @@ import ttsGenerator as ttsg
 
 # First thing I have to do: Empty [audio, screenshots, clips] folders of old content
 hf.empty_folder('artifacts/audio')
-hf.empty_folder('artifacts/clips')
 hf.empty_folder('artifacts/screenshots')
 
 
-# Read title_dict and comment_bodies jsons and save to vars
-title_dict = {}
-with open('artifacts/title/submission.json', 'r') as filehandle:
-    title_dict = json.load(filehandle)
-filehandle.close()
+# Read comment_bodies jsons and save to vars
 comment_body_list = []
-with open('artifacts/title/comment_bodies.json', 'r') as filehandle:
+with open('artifacts/submission/comment_bodies.json', 'r') as filehandle:
     comment_body_list = json.load(filehandle)
 filehandle.close()
 
 
 # Prepare html templates
-title_template = hf.readTemplate("html_templates/submissionTemplate.html")
 thread_template = hf.readTemplate("html_templates/threadTemplate.html")
 comm_template = hf.readTemplate("html_templates/commentTemplate.html")
 
@@ -49,23 +44,6 @@ driver = webdriver.Chrome()
 driver.fullscreen_window()
 
 
-# Take a screenshot and tts of the title/OP/thread title+text
-awards = " "  # get title awards list html
-if title_dict["all_awardings"]:
-    awards=hf.awardListToTemplateStr(title_dict)
-sub = title_template.substitute(score=hf.convertNToK(title_dict["score"]),
-                                username= 'u/' + title_dict["username"],
-                                awards=awards,
-                                thread_title=title_dict["title"],
-                                text=title_dict["selftext"],
-                                num_comments=hf.convertNToK(title_dict["num_comments"]))
-hf.writeTemplate(sub,'html_templates/submissionPost.html')
-
-driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/submissionPost.html')
-hf.takeScreenshot(driver, 'artifacts/title/CAPTURE.png')  #save screenshot and tts of title in title folder
-ttsg.gen_tts(title_dict["title"], 'artifacts/title/title_tts.mp3')
-
-
 #loop through top n comments and get their child comments and split into sentences
 for comment in comment_body_list:
 
@@ -85,7 +63,7 @@ for comment in comment_body_list:
 
     threadDiv=Template(sub+"$newComment")
 
-    # if the comment has a threadList, make a comment template with it. Margin should be 24px* its index in childComments list
+    # if the comment has a threadList, make a comment template with it.
     if comment["threadComments"]:
         for c in comment["threadComments"]:
             body_sub = hf.convertLnToBr(c['body'])  # save content of comment['body'] to temporary str var
@@ -153,7 +131,7 @@ for comment in comment_body_list:
         # take screenshot of reddit comment and save to screenshots folder
         driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/t_comments.html')
 
-        if ((sentence=="<br>")or(sentence==".")):
+        if ((sentence=="<br>")or(sentence==" <br>")or(sentence==".")or(sentence=="\"")):
             print('Dont take screenshot or audio')
         else:
             screenshot_filename = 'artifacts/screenshots/screenshot_' + str(comment_i) + '_' + str(sentence_i) + '.png'
@@ -255,7 +233,7 @@ for comment in comment_body_list:
 
 
 # open output file for writing json ss_and_a so moviepy_script can use the data
-with open('artifacts/title/screenshots_and_audios.json', 'w') as filehandle:
+with open('artifacts/submission/screenshots_and_audios.json', 'w') as filehandle:
     json.dump(ss_and_a, filehandle, indent=2)
 
 

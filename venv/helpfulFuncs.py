@@ -19,7 +19,8 @@ bad_words = {
     '<br>':' ',
     '--':' ',
     '*':' ',
-    '\"':' '
+    '\"':' ',
+    '`':"\'"
 }
 
 # compiles the punctuation into one regex object: punctuation_regex (for parsing sentences in comment.body)
@@ -65,6 +66,8 @@ def convertLnToBr(s):
     part =''
     if '\n' in s:
         part = s.replace('\n', '<br>')
+    elif '`' in s:
+        part = s.replace('`', "\'")
     else:
         part=s
     return part
@@ -193,3 +196,18 @@ def resizeScreenshots(maxWidth,maxHeight):
             h = round(h*maxWidth/w)
             im=im.resize( (maxWidth, h) )
         im.save("artifacts/screenshots/"+filename)
+
+#function for resizing submission folder screenshots
+def resizeSubmissionSS(maxWidth, maxHeight):
+    print("Resizing images in submission screenshot folder...")
+    for filename in os.listdir("artifacts/submission/screenshots"):
+        im = Image.open("artifacts/submission/screenshots/" + filename)
+        h = im.height
+        w = im.width
+        if (h * maxWidth / w) > maxHeight:
+            w = round(w * maxHeight / h)
+            im = im.resize((w, maxHeight))
+        else:
+            h = round(h * maxWidth / w)
+            im = im.resize((maxWidth, h))
+        im.save("artifacts/submission/screenshots/" + filename)

@@ -10,11 +10,12 @@ upload jsons to main.py
 import praw, json
 import helpfulFuncs as hf
 import pprint
+from random import shuffle
 
 
 # ---------   replace this url with new url every time you want to run the script on a new thread    ----------------------
-thread_url = "https://www.reddit.com/r/AskReddit/comments/fu5ac0/exhomeless_redditors_what_was_the_scariest_thing/"
-top_n = 30   #number of comments to take screenshots of
+thread_url = "https://www.reddit.com/r/stocks/comments/e9edxl/post_your_2020_picks_for_2030_and_reasoning/"
+top_n = 20   #number of comments to take screenshots of
 comment_body_list = []
 
 
@@ -30,7 +31,7 @@ r = praw.Reddit(client_id=reddit_creds["reddit_client_id"], client_secret=reddit
                      password=reddit_creds["reddit_pw"], user_agent=reddit_creds["reddit_user_agent"],
                      username=reddit_creds["reddit_user"])
 thread = r.submission(url=thread_url)
-thread.comment_sort = 'best' # get the best comments from the thread
+thread.comment_sort = 'top' # get the top comments from the thread, shuffle the comments later
 #print(thread.title)
 #pprint.pprint(vars(thread))  #see all of the thread variables
 
@@ -47,12 +48,11 @@ title_dict = {
     "nsfw": thread.over_18,
     "all_awardings": all_awardings,
 }
-#print(title_dict)
 
 #save title_dict to json
-with open(f'artifacts/title/submission.json', 'w') as filehandle:
+with open(f'artifacts/submission/submission.json', 'w') as filehandle:
     json.dump(title_dict, filehandle, indent=2)
-    print('Saved title_dict to artifacts/title/submission.json')
+    print('Saved title_dict to artifacts/submission/submission.json')
 filehandle.close()
 
 
@@ -77,9 +77,10 @@ for comment in thread.comments[:top_n]:
     print('Added comment by author: ' + d["author"])
     comment_body_list.append(d)
 
-
+#shuffle the order of top comments
+shuffle(comment_body_list)
 #save comment_body_list json
-with open(f'artifacts/title/comment_bodies.json', 'w') as filehandle:
+with open(f'artifacts/submission/comment_bodies.json', 'w') as filehandle:
     json.dump(comment_body_list, filehandle, indent=2)
-    print('Saved comment_body_list to artifacts/title/comment_bodies.json')
+    print('Saved comment_body_list to artifacts/submission/comment_bodies.json')
 filehandle.close()
