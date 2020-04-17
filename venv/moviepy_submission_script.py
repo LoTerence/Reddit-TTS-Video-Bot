@@ -9,7 +9,8 @@ import helpfulFuncs as hf
 
 
 resizeNeeded = False
-#resizeNeeded = True
+resizeNeeded = True
+hf.empty_folder("artifacts/clips")
 
 # vars
 dim = (1280,720) #720p # video dimensions

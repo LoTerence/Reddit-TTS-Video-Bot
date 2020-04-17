@@ -14,7 +14,7 @@ from random import shuffle
 
 
 # ---------   replace this url with new url every time you want to run the script on a new thread    ----------------------
-thread_url = "https://www.reddit.com/r/stocks/comments/e9edxl/post_your_2020_picks_for_2030_and_reasoning/"
+thread_url = "https://www.reddit.com/r/AskReddit/comments/fynxsa/what_is_a_sign_that_youre_unattractive/?sort=top"
 top_n = 20   #number of comments to take screenshots of
 comment_body_list = []
 
@@ -50,9 +50,9 @@ title_dict = {
 }
 
 #save title_dict to json
-with open(f'artifacts/submission/submission.json', 'w') as filehandle:
+with open(f'artifacts/jsons/submission.json', 'w') as filehandle:
     json.dump(title_dict, filehandle, indent=2)
-    print('Saved title_dict to artifacts/submission/submission.json')
+    print('Saved title_dict to artifacts/jsons/submission.json')
 filehandle.close()
 
 
@@ -80,7 +80,7 @@ for comment in thread.comments[:top_n]:
 #shuffle the order of top comments
 shuffle(comment_body_list)
 #save comment_body_list json
-with open(f'artifacts/submission/comment_bodies.json', 'w') as filehandle:
+with open(f'artifacts/jsons/comment_bodies.json', 'w') as filehandle:
     json.dump(comment_body_list, filehandle, indent=2)
     print('Saved comment_body_list to artifacts/submission/comment_bodies.json')
 filehandle.close()

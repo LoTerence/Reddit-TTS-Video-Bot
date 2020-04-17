@@ -9,7 +9,8 @@ import helpfulFuncs as hf
 
 #variables
 resizeNeeded = False
-#resizeNeeded = True
+resizeNeeded = True
+
 dim = (1280,720) #720p # video dimensions
 w = 1200 #width of image should be <= to width of dim
 h = 720 #height of image should be <= height of dim
@@ -31,7 +32,7 @@ static_vf = static_vf.volumex(2.8)   #TODO fix static_vf/mp4 sound
 
 # Read comments_list json and save to variable comments_list
 comments_list = []
-with open('artifacts/submission/screenshots_and_audios.json', 'r') as filehandle:
+with open('artifacts/jsons/screenshots_and_audios.json', 'r') as filehandle:
     comments_list = json.load(filehandle)
 filehandle.close()
 

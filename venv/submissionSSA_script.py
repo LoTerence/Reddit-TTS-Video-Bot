@@ -16,7 +16,7 @@ hf.empty_folder('artifacts/submission/screenshots')
 
 # Read title_dict and comment_bodies jsons and save to vars
 title_dict = {}
-with open('artifacts/submission/submission.json', 'r') as filehandle:
+with open('artifacts/jsons/submission.json', 'r') as filehandle:
     title_dict = json.load(filehandle)
 filehandle.close()
 
