@@ -9,7 +9,7 @@ import helpfulFuncs as hf
 
 
 resizeNeeded = False
-#resizeNeeded = True
+resizeNeeded = True
 hf.empty_folder("artifacts/clips")
 
 # vars

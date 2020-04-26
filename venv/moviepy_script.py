@@ -58,44 +58,45 @@ for group in groups_list:
 		else:  # do all this if it exists
 			temp_clip = concatenate_videoclips([temp_clip, static_vf])
 			print('Static vf added')
-			#f.close()  #bug fix? if f cant be opened then it cant be closed in finally?
+
+			for sentence in comment:
+
+				# check if the screenshot exists, in case I deleted it between scripts which I will prob do a lot
+				# if it doesnt exist do nothing and go to the next loop
+				try:
+					e = open(sentence[0])
+				except:
+					print('Alert: File \'' + sentence[0] + '\' does not exist')  # do nothing
+				else:  # do all this if it exists
+					audio = AudioFileClip(sentence[1])
+					audio = audio.volumex(1.8)
+
+					imageC = (ImageClip(sentence[0])
+							  .set_duration(audio.duration)
+							  # .resize(width=w)
+							  .on_color(size=dim,
+										color=bg_color)  # set screenshot on top of colorclip with bg_color as background color
+							  .set_fps(5)
+							  .set_position(("center", "center"))
+							  .set_audio(audio))
+					'''bg_pic.set_duration(audio.duration)  #set duration for big_pic imageclip
+					imageC = CompositeVideoClip([bg_pic, imageC], size=dim).set_duration(audio.duration)  #set screenshot imageC on top of bg_pic imageclip'''
+
+					temp_clip = concatenate_videoclips([temp_clip, imageC])
+					print('Concatenated clip \'' + str(sentence[0]) + '\'' + ' to group ' + str(group_i) + ' clip')
+
+					'''#  ------     Just in case I need to save the individual clips     --------
+					imageC.write_videofile("artifacts/clips/clip_"+str(comment_i) +'_'+str(sentence_i)+'.mp4')
+					print('saved clip ' + str(comment_i)+'_'+str(sentence_i))
+					sentence_i += 1'''
+				finally:
+					e.close()
+			# END sentences loop
+
 		finally:
 			f.close()
 
 		#sentence_i = 0 #sentence iterator
-
-		for sentence in comment:
-
-			#check if the screenshot exists, in case I deleted it between scripts which I will prob do a lot
-			#if it doesnt exist do nothing and go to the next loop
-			try:
-				f = open(sentence[0])
-			except:
-				print('Alert: File \'' + sentence[0] + '\' does not exist')  # do nothing
-			else:  #do all this if it exists
-				audio = AudioFileClip(sentence[1])
-				audio = audio.volumex(1.8)
-
-				imageC = (ImageClip(sentence[0])
-						 .set_duration(audio.duration)
-						 #.resize(width=w)
-						 .on_color(size=dim, color=bg_color)  #set screenshot on top of colorclip with bg_color as background color
-						 .set_fps(5)
-						 .set_position(("center", "center"))
-						 .set_audio(audio))
-				'''bg_pic.set_duration(audio.duration)  #set duration for big_pic imageclip
-				imageC = CompositeVideoClip([bg_pic, imageC], size=dim).set_duration(audio.duration)  #set screenshot imageC on top of bg_pic imageclip'''
-
-				temp_clip = concatenate_videoclips([temp_clip, imageC])
-				print('Concatenated clip \'' + str(sentence[0]) + '\'' + ' to group ' + str(group_i) + ' clip')
-
-				'''#  ------     Just in case I need to save the individual clips     --------
-				imageC.write_videofile("artifacts/clips/clip_"+str(comment_i) +'_'+str(sentence_i)+'.mp4')
-				print('saved clip ' + str(comment_i)+'_'+str(sentence_i))
-				sentence_i += 1'''
-			finally:
-				f.close()
-			# END sentences loop
 
 		# END comments loop
 

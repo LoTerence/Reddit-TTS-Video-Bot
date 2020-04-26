@@ -12,6 +12,10 @@ from string import Template
 # also replaces program breaking words like <br> etc
 bad_words = {
     'fuck':' duck',
+    'Fuck':'duck',
+    'FUCK':'duck',
+    'Shit':'crap',
+    'SHIT':'crap',
     'shitty':'crappy',
     'shit': 'crap',
     'bitch':'beach',

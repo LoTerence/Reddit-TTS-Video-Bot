@@ -25,7 +25,7 @@ audio_config = texttospeech.types.AudioConfig(
 # Set the text input to be synthesized
 # Replace this with the title of the post
 synthesis_input = texttospeech.types.SynthesisInput(
-    text = "this is a smiling Kanye, it only appears once every twenty thousand kanye pics, very rare kanye. Like in five seconds or bad luck")
+    text = "this is a smiling Kanye, it only appears once every twenty thousand kanye pics, very rare kanye. Like in five seconds or bad luck.")
 
 
 

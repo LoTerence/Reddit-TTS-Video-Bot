@@ -74,11 +74,11 @@ hf.writeTemplate(sub,'html_templates/submissionPost.html')
 driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/submissionPost.html')
 hf.takeScreenshot(driver, 'artifacts/submission/screenshots/selftext0.png')  #save screenshot and tts of title in submission folder
 if askRedditBool:
-    speech = "R slash ask reddit,  " + title_dict["title"]
+    speech = "R slash ask reddit.  " + hf.cleanSpeech(title_dict["title"])
     ttsg.gen_tts(speech, 'artifacts/submission/audio/selftext0.mp3')
     self_ss_and_a.append(['artifacts/submission/screenshots/selftext0.png', 'artifacts/submission/audio/selftext0.mp3'])
 else:
-    ttsg.gen_tts(title_dict["title"], 'artifacts/submission/audio/selftext0.mp3')
+    ttsg.gen_tts(hf.cleanSpeech(title_dict["title"]), 'artifacts/submission/audio/selftext0.mp3')
     self_ss_and_a.append(['artifacts/submission/screenshots/selftext0.png','artifacts/submission/audio/selftext0.mp3'])
 
 
