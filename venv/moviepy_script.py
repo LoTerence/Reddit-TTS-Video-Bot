@@ -9,7 +9,7 @@ import helpfulFuncs as hf
 
 #variables
 resizeNeeded = False
-resizeNeeded = True
+#resizeNeeded = True
 
 dim = (1280,720) #720p # video dimensions
 w = 1200 #width of image should be <= to width of dim
@@ -25,7 +25,6 @@ if resizeNeeded:
 
 # make a video clip for the static video effect
 static_vf = VideoFileClip(f"misc/static_vf.mp4")
-static_vf = static_vf.volumex(2.8)   #TODO fix static_vf/mp4 sound
 # make an image clip for the background picture
 #bg_pic = ImageClip(f"misc/bg-pic.jpg")
 

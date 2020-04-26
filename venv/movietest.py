@@ -13,7 +13,19 @@ dim = (1280,720) #720p # video dimensions
 w = 1150 #width of image should be <= to width of dim
 bg_color = (26,26,27)  # reddit dark mode bg color, dark-dark-grey #1A1A1B
 
-a = ImageClip(f"misc/bg-pic.jpg")
+
+audio = AudioFileClip(f"misc/kanye-like-or.mp3")
+#audio = audio.volumex(1.5)
+image = (ImageClip(f"misc/kanye-like-or.png")
+	.set_duration(audio.duration)
+	.on_color(size=dim, color=bg_color)
+	.set_fps(5)
+	.set_audio(audio)
+	.set_position(("center","center")))
+
+image.write_videofile('test-image.mp4')
+
+'''a = ImageClip(f"misc/bg-pic.jpg")
 audio = AudioFileClip(f"artifacts/title/title_tts.mp3")
 audio = audio.volumex(1.5)
 image = (ImageClip(f"artifacts/title/Capture.PNG")
@@ -23,7 +35,7 @@ image = (ImageClip(f"artifacts/title/Capture.PNG")
 	.set_position(("center","center")))
 image = CompositeVideoClip([a,image], size=dim).set_duration(audio.duration)
 
-image.write_videofile('test-image.mp4')
+image.write_videofile('test-image.mp4')'''
 
 
 

@@ -9,7 +9,7 @@ import helpfulFuncs as hf
 
 
 resizeNeeded = False
-resizeNeeded = True
+#resizeNeeded = True
 hf.empty_folder("artifacts/clips")
 
 # vars
@@ -17,7 +17,7 @@ dim = (1280,720) #720p # video dimensions
 w = 1200 #width of image should be <= to width of dim
 h = 720 #height of image should be <= height of dim
 bg_color = (26,26,27)  # reddit dark mode bg color, dark-dark-grey #1A1A1B
-
+like_or_clip = VideoFileClip(f"misc/kanye-like-or.mp4")
 
 # Read submission_ssa.json and save to variable selfss_and_a
 selfss_and_a = []
@@ -62,6 +62,8 @@ for l in selfss_and_a:
         f.close()
 # END for l in selfss_and_a loop
 
+
+temp_clip = concatenate_videoclips([temp_clip, like_or_clip])
 
 temp_clip.write_videofile('artifacts/clips/0intro.mp4')
 

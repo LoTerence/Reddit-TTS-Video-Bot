@@ -3,7 +3,7 @@ showComments.py
 written by Terence Lo
 
 take title and original submission data and save them to json
-take best n comments from askreddit thread and save them to another json
+take top n comments from askreddit thread and save them to another json
 be able to modify jsons
 upload jsons to main.py
 '''
@@ -14,7 +14,7 @@ from random import shuffle
 
 
 # ---------   replace this url with new url every time you want to run the script on a new thread    ----------------------
-thread_url = "https://www.reddit.com/r/AskReddit/comments/fynxsa/what_is_a_sign_that_youre_unattractive/?sort=top"
+thread_url = "https://www.reddit.com/r/AskReddit/comments/cy82ym/what_are_some_declassified_government_documents"
 top_n = 20   #number of comments to take screenshots of
 comment_body_list = []
 
@@ -56,8 +56,28 @@ with open(f'artifacts/jsons/submission.json', 'w') as filehandle:
 filehandle.close()
 
 
+#save the first top comment
+e = thread.comments[0]
+d = hf.createCommentDict(e)
+d["threadComments"] = []
+c = e.replies
+c.replace_more(limit=0)  #removes moreComments instances in comment.replies
+c = c.list()  #get the list of child comments
+if c:
+    print(c[0])
+    d["threadComments"].append(hf.createCommentDict(c[0]))
+    next = c[0]
+    nextC = next.replies
+    nextC.replace_more(limit=0)
+    nextC = nextC.list()
+    if nextC:
+        print(nextC[0])
+        d["threadComments"].append(hf.createCommentDict(nextC[0]))
+topComment = d
+
+
 #loop through top_n comments and save the text to json list
-for comment in thread.comments[:top_n]:
+for comment in thread.comments[1:top_n]:
     d = hf.createCommentDict(comment)
     d["threadComments"] = []
     c = comment.replies
@@ -79,6 +99,7 @@ for comment in thread.comments[:top_n]:
 
 #shuffle the order of top comments
 shuffle(comment_body_list)
+comment_body_list.insert(0,topComment)
 #save comment_body_list json
 with open(f'artifacts/jsons/comment_bodies.json', 'w') as filehandle:
     json.dump(comment_body_list, filehandle, indent=2)

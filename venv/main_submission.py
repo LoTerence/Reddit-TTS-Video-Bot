@@ -9,6 +9,9 @@ import helpfulFuncs as hf
 import ttsGenerator as ttsg
 
 
+askRedditBool = True
+
+
 #Empty old folders
 hf.empty_folder('artifacts/submission/audio')
 hf.empty_folder('artifacts/submission/screenshots')
@@ -70,8 +73,13 @@ sub = title_template.substitute(score=karma,
 hf.writeTemplate(sub,'html_templates/submissionPost.html')
 driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/submissionPost.html')
 hf.takeScreenshot(driver, 'artifacts/submission/screenshots/selftext0.png')  #save screenshot and tts of title in submission folder
-ttsg.gen_tts(title_dict["title"], 'artifacts/submission/audio/selftext0.mp3')
-self_ss_and_a.append(['artifacts/submission/screenshots/selftext0.png','artifacts/submission/audio/selftext0.mp3'])
+if askRedditBool:
+    speech = "R slash ask reddit,  " + title_dict["title"]
+    ttsg.gen_tts(speech, 'artifacts/submission/audio/selftext0.mp3')
+    self_ss_and_a.append(['artifacts/submission/screenshots/selftext0.png', 'artifacts/submission/audio/selftext0.mp3'])
+else:
+    ttsg.gen_tts(title_dict["title"], 'artifacts/submission/audio/selftext0.mp3')
+    self_ss_and_a.append(['artifacts/submission/screenshots/selftext0.png','artifacts/submission/audio/selftext0.mp3'])
 
 
 #split self text into sentences and loop through sentences to save screenshots and audios

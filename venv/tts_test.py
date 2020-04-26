@@ -25,7 +25,7 @@ audio_config = texttospeech.types.AudioConfig(
 # Set the text input to be synthesized
 # Replace this with the title of the post
 synthesis_input = texttospeech.types.SynthesisInput(
-    text = "test a b c d?")
+    text = "this is a smiling Kanye, it only appears once every twenty thousand kanye pics, very rare kanye. Like in five seconds or bad luck")
 
 
 
@@ -35,10 +35,10 @@ response = client.synthesize_speech(synthesis_input, voice, audio_config)
 
 
 # The response's audio_content is binary. 
-with open('artifacts/title/title_tts.mp3', 'wb') as out:
+with open('misc/kanye-like-or.mp3', 'wb') as out:
     # Write the response to the output file.
     out.write(response.audio_content)
-    print('Audio content written to file "artifacts/title/title_tts.mp3"')
+    print('Audio content written to file "misc/kanye-like-or.mp3"')
 
 '''
 with open('voice_fix.mp3', 'wb') as out:
