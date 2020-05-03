@@ -9,7 +9,7 @@ import helpfulFuncs as hf
 
 #variables
 resizeNeeded = False
-#resizeNeeded = True
+resizeNeeded = True
 
 dim = (1280,720) #720p # video dimensions
 w = 1200 #width of image should be <= to width of dim

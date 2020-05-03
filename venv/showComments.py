@@ -14,8 +14,8 @@ from random import shuffle
 
 
 # ---------   replace this url with new url every time you want to run the script on a new thread    ----------------------
-thread_url = "https://www.reddit.com/r/AskReddit/comments/g5pkbw/doctors_of_reddit_what_patient_made_you_go_how"
-top_n = 20   #number of comments to take screenshots of
+thread_url = "https://www.reddit.com/r/AskReddit/comments/g0ij6y/has_someone_ever_challenged_you_to_something_that/"
+top_n = 25   #number of comments to take screenshots of
 comment_body_list = []
 
 

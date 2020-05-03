@@ -6,7 +6,8 @@ from string import Template
 from selenium import webdriver
 import json
 import helpfulFuncs as hf
-import ttsGenerator as ttsg
+#import ttsGenerator as ttsg
+import balconTts as ttsg
 
 
 askRedditBool = True
