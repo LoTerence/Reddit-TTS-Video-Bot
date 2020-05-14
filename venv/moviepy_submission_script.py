@@ -63,7 +63,7 @@ for l in selfss_and_a:
 # END for l in selfss_and_a loop
 
 
-temp_clip = concatenate_videoclips([temp_clip, like_or_clip])
+#temp_clip = concatenate_videoclips([temp_clip, like_or_clip])
 
 temp_clip.write_videofile('artifacts/clips/0intro.mp4')
 

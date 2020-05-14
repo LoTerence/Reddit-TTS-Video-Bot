@@ -132,7 +132,7 @@ for comment in comment_body_list:
         # take screenshot of reddit comment and save to screenshots folder
         driver.get('file://C:/Users/Terence/PycharmProjects/reddit_tts_yt_bot/venv/html_templates/t_comments.html')
 
-        if ((sentence=="<br>")or(sentence==" <br>")or(sentence==".")or(sentence=="\"")):
+        if ((sentence=="<br>")or(sentence==" <br>")or(sentence==".")or(sentence=="\"")or(sentence=="\"<br>")or(sentence=="\" <br>")):
             print('Dont take screenshot or audio')
         else:
             screenshot_filename = 'artifacts/screenshots/screenshot_' + str(comment_i) + '_' + str(sentence_i) + '.png'

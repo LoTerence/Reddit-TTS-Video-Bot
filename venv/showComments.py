@@ -14,8 +14,8 @@ from random import shuffle
 
 
 # ---------   replace this url with new url every time you want to run the script on a new thread    ----------------------
-thread_url = "https://www.reddit.com/r/AskReddit/comments/g0ij6y/has_someone_ever_challenged_you_to_something_that/"
-top_n = 25   #number of comments to take screenshots of
+thread_url = "https://www.reddit.com/r/AskReddit/comments/f9cufu/what_are_some_ridiculous_history_facts/?sort=top"
+top_n = 19   #number of comments to take screenshots of
 comment_body_list = []
 
 
@@ -98,7 +98,7 @@ for comment in thread.comments[1:top_n]:
     comment_body_list.append(d)
 
 #shuffle the order of top comments
-shuffle(comment_body_list)
+#shuffle(comment_body_list)
 comment_body_list.insert(0,topComment)
 #save comment_body_list json
 with open(f'artifacts/jsons/comment_bodies.json', 'w') as filehandle:

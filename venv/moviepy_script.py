@@ -68,27 +68,31 @@ for group in groups_list:
 				except:
 					print('Alert: File \'' + sentence[0] + '\' does not exist')  # do nothing
 				else:  # do all this if it exists
-					audio = AudioFileClip(sentence[1])
-					audio = audio.volumex(1.8)
+					try:
+						audio = AudioFileClip(sentence[1])
+					except:
+						print('Alert: Audio File \'' + sentence[1] +' \' duration is 0')
+					else:
+						audio = audio.volumex(1.8)
 
-					imageC = (ImageClip(sentence[0])
-							  .set_duration(audio.duration)
-							  # .resize(width=w)
-							  .on_color(size=dim,
-										color=bg_color)  # set screenshot on top of colorclip with bg_color as background color
-							  .set_fps(5)
-							  .set_position(("center", "center"))
-							  .set_audio(audio))
-					'''bg_pic.set_duration(audio.duration)  #set duration for big_pic imageclip
-					imageC = CompositeVideoClip([bg_pic, imageC], size=dim).set_duration(audio.duration)  #set screenshot imageC on top of bg_pic imageclip'''
+						imageC = (ImageClip(sentence[0])
+								  .set_duration(audio.duration)
+								  # .resize(width=w)
+								  .on_color(size=dim,
+											color=bg_color)  # set screenshot on top of colorclip with bg_color as background color
+								  .set_fps(5)
+								  .set_position(("center", "center"))
+								  .set_audio(audio))
+						'''bg_pic.set_duration(audio.duration)  #set duration for big_pic imageclip
+						imageC = CompositeVideoClip([bg_pic, imageC], size=dim).set_duration(audio.duration)  #set screenshot imageC on top of bg_pic imageclip'''
 
-					temp_clip = concatenate_videoclips([temp_clip, imageC])
-					print('Concatenated clip \'' + str(sentence[0]) + '\'' + ' to group ' + str(group_i) + ' clip')
+						temp_clip = concatenate_videoclips([temp_clip, imageC])
+						print('Concatenated clip \'' + str(sentence[0]) + '\'' + ' to group ' + str(group_i) + ' clip')
 
-					'''#  ------     Just in case I need to save the individual clips     --------
-					imageC.write_videofile("artifacts/clips/clip_"+str(comment_i) +'_'+str(sentence_i)+'.mp4')
-					print('saved clip ' + str(comment_i)+'_'+str(sentence_i))
-					sentence_i += 1'''
+						'''#  ------     Just in case I need to save the individual clips     --------
+						imageC.write_videofile("artifacts/clips/clip_"+str(comment_i) +'_'+str(sentence_i)+'.mp4')
+						print('saved clip ' + str(comment_i)+'_'+str(sentence_i))
+						sentence_i += 1'''
 				finally:
 					e.close()
 			# END sentences loop

@@ -18,6 +18,7 @@ bad_words = {
     'SHIT':'crap',
     'shitty':'crappy',
     'shit': 'crap',
+    'ass':'behind',
     'bitch':'beach',
     'isnt':'isn\'t',
     '<br>':' ',
@@ -28,7 +29,7 @@ bad_words = {
 }
 
 # compiles the punctuation into one regex object: punctuation_regex (for parsing sentences in comment.body)
-punctuation_regex = re.compile('(?<=[\n.!?:;])+')  #maybe add commas and elipticals
+punctuation_regex = re.compile('(?<=[\n.!?;])+')
 
 # function that empties contents of a folder. Returns nothing
 def empty_folder(folder):
